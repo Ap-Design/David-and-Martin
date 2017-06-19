@@ -1,0 +1,56 @@
+<div id="megamenu_wrapper" class="megamenu_off text_center">
+	<i id="megamenu_close" class="fl-bigmug-line-close42"></i>
+
+	<div class="wrap_1">
+		<div class="wrap_2">
+			<ul class="level_1">
+				{% for i in (1..5) %}
+					{% capture item_name %}megamenu{{ i }}_name{% endcapture %}
+					{% capture item_link %}megamenu{{ i }}_link{% endcapture %}
+
+					{% capture item_name_lang %}layout.megamenu.item_{{ i }}_name{% endcapture %}
+
+					<li class="level_1__item item_{{ i }}">
+						<div>
+							<a class="level_1__link" href="{% case i %}{% when 3 %}{{ blogs[settings.megamenu3_blog_select].url }}{% else %}{{ settings[item_link] }}{% endcase %}">
+								{% assign A = item_name_lang | t %}{% if A.size > 0 %}{{ A | truncate:33 }}{% else %}{{ settings[item_name] | truncate:33 }}{% endif %}
+								{% if i == 2 %}{% if collections[settings.megamenu2_col__1].id.size != 0 or collections[settings.megamenu2_col__2].id.size != 0 or collections[settings.megamenu2_col__3].id.size != 0 or collections[settings.megamenu2_col__4].id.size != 0 %}<i id="catalog_trigger">+</i>{% endif %}{% endif %}
+							</a>
+						</div>
+
+						{% if i == 2 %}
+							{% if collections[settings.megamenu2_col__1].id.size != 0 or collections[settings.megamenu2_col__2].id.size != 0 or collections[settings.megamenu2_col__3].id.size != 0 or collections[settings.megamenu2_col__4].id.size != 0 %}
+								<div id="catalog_sub" class="level_2 catalog_off">
+									<div class="level_2__wrap_1">
+										<div class="level_2__wrap_2">
+											<i id="catalog_back"></i>
+
+											<ul >
+												{% for i in (1..4) %}
+													{% capture item %}megamenu2_col__{{ i }}{% endcapture %}
+													{% capture item %}{{ settings[item] }}{% endcapture %}
+
+													{% if collections[item].id.size != 0 %}
+														<li class="level_2__item"><a class="level_2__link" href="{{ collections[item].url }}">{{ collections[item].title }}<span>{{ collections[item].products_count }}</span></a></li>
+													{% endif %}
+												{% endfor %}
+											</ul>
+										</div>
+									</div>
+								</div>
+							{% endif %}
+						{% endif %}
+					</li>
+				{% endfor %}
+
+				{% if shop.customer_accounts_enabled %}
+					{% if customer %}
+						<li class="level_1__item"><div><a class="level_1__link {% if template contains 'customer' %}active{% endif %}" href="/account"><i class="fa fa-user"></i>{{ customer.first_name | truncate:15 }}</a></div></li>
+					{% else %}
+						<li class="level_1__item"><div><a class="level_1__link {% if template contains 'customer' %}active{% endif %}" href="/account/login">{% assign X = 'layout.header.login' | t %}{% if X.size > 0 %}{{ X }}{% else %}Log in{% endif %}</a></div></li>
+					{% endif %}
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</div>

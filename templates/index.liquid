@@ -1,0 +1,364 @@
+{% if shop.products_count < 1 %}
+	<div class="hero-unit">
+		<p class="text-center">{% assign X = 'catalog.homepage_products.no_products' | t %}{% if X.size > 0 %}{{ X }}{% else %}This section displays products from homepage collection. Unfortunately you don't have any products in your store yet.{% endif %}</p>
+
+		<p class="text-center">
+			<a class="btn btn-primary" href="/admin/products/new">{% assign X = 'catalog.homepage_products.add_products' | t %}{% if X.size > 0 %}{{ X }}{% else %}Would you like to add some?{% endif %}</a> 
+		</p>
+	</div>
+{% endif %}
+
+{% comment %}
+
+{% if settings.homepage_products_toggle %}
+
+<h2 class="page_heading">{% assign X = 'catalog.homepage_products.title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Featured{% endif %}</h2>
+
+{% assign productsNum = collections[settings.homepage_products].products_count | plus: 0 %}
+{% assign productsNumHalf = collections[settings.homepage_products].products_count | divided_by: 2 %}
+{% assign productsCount = settings.homepage_products_count | plus: 0 %}
+{% assign productsCountHalf = productsCount | divided_by: 2 %}
+{% assign productsRows = settings.homepage_carousel_rows | plus: 0 %}
+{% assign productsDir = settings.homepage_carousel_direction | plus: 0 %}
+
+{% if productsNum <= 4 %}
+
+	<div class="product_listing_main row">
+		{% for product in collections[settings.homepage_products].products limit:productsCount %}
+			<div class="col-sm-3">
+				{% include 'product-listing-item' %} 
+			</div>
+		{% endfor %}
+	</div>
+
+{% elsif productsNum > 4 and productsNum <= 8 %}
+
+	{% case productsCount %}
+		{% when 4 %}
+			<div class="product_listing_main row">
+				{% for product in collections[settings.homepage_products].products limit:productsCount %}
+					<div class="col-sm-3">
+						{% include 'product-listing-item' %} 
+					</div>
+				{% endfor %}
+			</div>
+
+		{% else %}
+			{% case productsRows %}
+				{% when 1 %}
+					<div class="homepage_carousel">
+						<div id="homepage_carousel__1" class="swiper-container product_listing_main">
+							<div class="swiper-wrapper">
+								{% for product in collections[settings.homepage_products].products limit:productsCount %}
+									{% include 'product-listing-item' %} 
+								{% endfor %}
+							</div>
+						</div>
+
+						<div class="swiper_btn btn_prev"></div>
+						<div class="swiper_btn btn_next"></div>
+					</div>
+
+					<script>
+					jQuery(document).ready(function($) {
+						var homepage_carousel__1 = new Swiper('#homepage_carousel__1', {
+							loop: true,
+							speed: 500,
+							slidesPerView: 4,
+							spaceBetween: 30,
+							prevButton: '.btn_prev',
+							nextButton: '.btn_next',
+							breakpoints: {
+								991: {
+									slidesPerView: 3
+								},
+								767: {
+									slidesPerView: 2,
+									spaceBetween: 15
+								},
+								640: {
+									slidesPerView: 1,
+									spaceBetween: 0
+								}
+							}
+						});
+					});
+					</script>
+
+				{% else %}
+					<div class="product_listing_main row">
+						{% for product in collections[settings.homepage_products].products limit:4 %}
+							<div class="col-sm-3">
+								{% include 'product-listing-item' %} 
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="product_listing_main row">
+						{% for product in collections[settings.homepage_products].products offset:4 %}
+							<div class="col-sm-3">
+								{% include 'product-listing-item' %} 
+							</div>
+						{% endfor %}
+					</div>
+
+			{% endcase %}
+
+	{% endcase %}
+
+{% else %}
+
+	{% case productsCount %}
+		{% when 4 %}
+			<div class="product_listing_main row">
+				{% for product in collections[settings.homepage_products].products limit:productsCount %}
+					<div class="col-sm-3">
+						{% include 'product-listing-item' %} 
+					</div>
+				{% endfor %}
+			</div>
+
+		{% when 8 %}
+			{% case productsRows %}
+				{% when 1 %}
+					<div class="homepage_carousel">
+						<div id="homepage_carousel__1" class="swiper-container product_listing_main">
+							<div class="swiper-wrapper">
+								{% for product in collections[settings.homepage_products].products limit:productsCount %}
+									{% include 'product-listing-item' %} 
+								{% endfor %}
+							</div>
+						</div>
+
+						<div class="swiper_btn btn_prev"></div>
+						<div class="swiper_btn btn_next"></div>
+					</div>
+
+					<script>
+					jQuery(document).ready(function($) {
+						var homepage_carousel__1 = new Swiper('#homepage_carousel__1', {
+							loop: true,
+							speed: 500,
+							slidesPerView: 4,
+							spaceBetween: 30,
+							prevButton: '.btn_prev',
+							nextButton: '.btn_next',
+							breakpoints: {
+								991: {
+									slidesPerView: 3
+								},
+								767: {
+									slidesPerView: 2,
+									spaceBetween: 15
+								},
+								640: {
+									slidesPerView: 1,
+									spaceBetween: 0
+								}
+							}
+						});
+					});
+					</script>
+
+				{% else %}
+					<div class="product_listing_main row">
+						{% for product in collections[settings.homepage_products].products limit:4 %}
+							<div class="col-sm-3">
+								{% include 'product-listing-item' %} 
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="product_listing_main row">
+						{% for product in collections[settings.homepage_products].products offset:4 limit:4 %}
+							<div class="col-sm-3">
+								{% include 'product-listing-item' %} 
+							</div>
+						{% endfor %}
+					</div>
+
+			{% endcase %}
+
+		{% else %}
+			{% case productsRows %}
+				{% when 1 %}
+					<div class="homepage_carousel">
+						<div id="homepage_carousel__1" class="swiper-container product_listing_main">
+							<div class="swiper-wrapper">
+								{% for product in collections[settings.homepage_products].products limit:productsCount %}
+									{% include 'product-listing-item' %} 
+								{% endfor %}
+							</div>
+						</div>
+
+						<div class="swiper_btn btn_prev"></div>
+						<div class="swiper_btn btn_next"></div>
+					</div>
+
+					<script>
+					jQuery(document).ready(function($) {
+						var homepage_carousel__1 = new Swiper('#homepage_carousel__1', {
+							loop: true,
+							speed: 500,
+							slidesPerView: 4,
+							spaceBetween: 30,
+							prevButton: '.btn_prev',
+							nextButton: '.btn_next',
+							breakpoints: {
+								991: {
+									slidesPerView: 3
+								},
+								767: {
+									slidesPerView: 2,
+									spaceBetween: 15
+								},
+								640: {
+									slidesPerView: 1,
+									spaceBetween: 0
+								}
+							}
+						});
+					});
+					</script>
+
+				{% else %}
+
+					<div class="homepage_carousel">
+						<div id="homepage_carousel__1" class="swiper-container product_listing_main">
+							<div class="swiper-wrapper">
+								{% if productsNum < productsCount %}
+									{% for product in collections[settings.homepage_products].products limit:productsNumHalf %}
+										{% include 'product-listing-item' %} 
+									{% endfor %}
+								{% else %}
+									{% for product in collections[settings.homepage_products].products limit:productsCountHalf %}
+										{% include 'product-listing-item' %} 
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+
+						<div id="carousel_1__prev"></div>
+						<div id="carousel_1__next"></div>
+
+						<div id="homepage_carousel__2" class="swiper-container product_listing_main">
+							<div class="swiper-wrapper">
+								{% if productsNum < productsCount %}
+									{% for product in collections[settings.homepage_products].products offset:productsNumHalf %}
+										{% include 'product-listing-item' %} 
+									{% endfor %}
+								{% else %}
+									{% for product in collections[settings.homepage_products].products offset:productsCountHalf %}
+										{% include 'product-listing-item' %} 
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+
+						<div id="carousel_2__prev"></div>
+						<div id="carousel_2__next"></div>
+
+						<div class="swiper_btn btn_prev" id="carousel_prev"></div>
+						<div class="swiper_btn btn_next" id="carousel_next"></div>
+					</div>
+
+					<script>
+					jQuery(document).ready(function($) {
+
+						var homepage_carousel__1 = new Swiper('#homepage_carousel__1', {
+							loop: true,
+							speed: 400,
+							slidesPerView: 4,
+							spaceBetween: 30,
+							prevButton: '#carousel_1__prev',
+							nextButton: '#carousel_1__next',
+							breakpoints: {
+								991: {
+									slidesPerView: 3
+								},
+								767: {
+									slidesPerView: 2,
+									spaceBetween: 15
+								},
+								640: {
+									slidesPerView: 1,
+									spaceBetween: 0
+								}
+							}
+						});
+
+						var homepage_carousel__2 = new Swiper('#homepage_carousel__2', {
+							loop: true,
+							speed: 400,
+							slidesPerView: 4,
+							spaceBetween: 30,
+							prevButton: '#carousel_2__prev',
+							nextButton: '#carousel_2__next',
+							breakpoints: {
+								991: {
+									slidesPerView: 3
+								},
+								767: {
+									slidesPerView: 2,
+									spaceBetween: 15
+								},
+								640: {
+									slidesPerView: 1,
+									spaceBetween: 0
+								}
+							}
+						});
+
+						homepage_carousel__2.prevButton.hide();
+						homepage_carousel__2.nextButton.hide();
+
+						{% case productsDir %}
+							{% when 1 %}
+								$('#carousel_prev').on('click', function() {
+									homepage_carousel__1.slidePrev();
+									homepage_carousel__2.slidePrev();
+									homepage_carousel__2.prevButton.trigger('click');
+								});
+
+								$('#carousel_next').on('click', function() {
+									homepage_carousel__1.slideNext();
+									homepage_carousel__2.slideNext();
+									homepage_carousel__2.nextButton.trigger('click');
+								});
+							{% when 2 %}
+								$('#carousel_prev').on('click', function() {
+									homepage_carousel__1.slidePrev();
+									homepage_carousel__2.slideNext();
+									homepage_carousel__2.nextButton.trigger('click');
+								});
+
+								$('#carousel_next').on('click', function() {
+									homepage_carousel__1.slideNext();
+									homepage_carousel__2.slidePrev();
+									homepage_carousel__2.prevButton.trigger('click');
+								});
+						{% endcase %}
+
+					});
+					</script>
+
+			{% endcase %}
+
+	{% endcase %}
+
+{% endif %}
+
+{% endif %}
+
+{% endcomment %}
+
+<style>
+#contact_form>#contact_email {
+     color: #fff;
+}
+
+</style>
+
+
+
+

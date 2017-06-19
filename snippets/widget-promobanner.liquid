@@ -1,0 +1,62 @@
+{% assign date_day = settings.promobanner_date_day %}
+{% assign date_month = settings.promobanner_date_month %}
+{% assign date_year = settings.promobanner_date_year %}
+
+{% capture promobanner_countdown %}
+	<div id="promobanner_countdown">
+		<input class="knob days" data-fgColor="{{ settings.color_3 }}" data-width="100" data-height="100" data-readOnly="true" data-min="0" data-max="365" data-displayPrevious=true data-thickness=".06" data-skin="tron" value="75">
+		<input class="knob hour" data-fgColor="{{ settings.color_3 }}" data-width="100" data-height="100" data-readOnly="true" data-min="0" data-max="24" data-displayPrevious=true data-thickness=".06" data-skin="tron" value="75">
+		<input class="knob minute" data-fgColor="{{ settings.color_3 }}" data-width="100" data-height="100" data-readOnly="true" data-min="0" data-max="60" data-displayPrevious=true data-thickness=".06" data-skin="tron" value="75">
+		<input class="knob second" data-fgColor="{{ settings.color_3 }}" data-width="100" data-height="100" data-readOnly="true" data-min="0" data-max="60" data-displayPrevious=true data-thickness=".06" data-skin="tron" value="75">
+	</div>
+
+	<script>
+	jQuery(function($){
+		$(window).load(function() {
+			$("#promobanner_countdown").ccountdown({{ date_year }},{{ date_month }},{{ date_day }},'00:00'); //only need to pass target date and time
+			$('#promobanner_countdown .knob').removeAttr('style');
+			$('.knob.days').after("<span>{% assign X = 'custom_blocks.promo_banner.days' | t %}{% if X.size > 0 %}{{ X }}{% else %}days{% endif %}</span>");
+			$('.knob.hour').after("<span>{% assign X = 'custom_blocks.promo_banner.hours' | t %}{% if X.size > 0 %}{{ X }}{% else %}hours{% endif %}</span>");
+			$('.knob.minute').after("<span>{% assign X = 'custom_blocks.promo_banner.minutes' | t %}{% if X.size > 0 %}{{ X }}{% else %}minutes{% endif %}</span>");
+			$('.knob.second').after("<span>{% assign X = 'custom_blocks.promo_banner.seconds' | t %}{% if X.size > 0 %}{{ X }}{% else %}seconds{% endif %}</span>");
+		});
+	});
+	</script>
+{% endcapture %}
+
+<div id="promobanner">
+	<a id="promobanner_close" href="#"><i class="fl-bigmug-line-close42"></i></a>
+
+	<div class="promobanner_container">
+		<div class="promobanner_wrap">
+			<img src="{{ 'promobanner_img.png' | asset_url }}" alt="{{ settings.promobanner_title }} {{ settings.promobanner_tagline }}">
+
+			<div class="promobanner_text">
+				<h2>{% assign X = 'custom_blocks.promo_banner.title' | t %}{% if X.size > 0 %}{{ X }}{% else %}{{ settings.promobanner_title }}{% endif %}</h2>
+				<a class="btn" href="{{ settings.promobanner_link }}">{% assign X = 'custom_blocks.promo_banner.button' | t %}{% if X.size > 0 %}{{ X }}{% else %}{{ settings.promobanner_btn }}{% endif %}</a>
+			</div>
+		</div>
+
+		<div class="promobanner_counter">
+			{% case date_day %}
+				{% when '30' %}
+					{% case date_month %}
+						{% when '02' %}
+							<div class="promobanner_error">Incorrect date</div>
+						{% else %}
+							{{ promobanner_countdown }}
+					{% endcase %}
+
+				{% when '31' %}
+					{% case date_month %}
+						{% when '02', '04', '06', '09', '11' %}
+							<div class="promobanner_error">Incorrect date</div>
+						{% else %}
+							{{ promobanner_countdown }}
+					{% endcase %}
+				{% else %}
+					{{ promobanner_countdown }}
+			{% endcase %}
+		</div>
+	</div>
+</div>

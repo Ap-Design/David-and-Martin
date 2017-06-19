@@ -1,0 +1,344 @@
+<!doctype html>
+<html class="color_scheme">
+<head>
+  
+<!----- Kens Custom JS/CSS --->  
+{{ 'custom_css.css' | asset_url | stylesheet_tag }}
+{{ 'custom_script.js' | asset_url | script_tag }}
+
+<!-----End Kens Custom JS/CSS --->
+  
+<!-- META TAGS -->
+	<meta charset="utf-8">
+  <!-- PAGE TITLE -->
+	{% case template %}{% when 'index' %}<title>{{ page_title }} {{ shop.name }}</title>{% when '404' %}<title>Page Not Found | {{ shop.name }}</title>{% else %}<title>{{ page_title }} | {{ shop.name }}</title>{% endcase %}
+	<!--[if IE]>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<![endif]-->
+	{% if page_description %}<meta name="description" content="{{ page_description }}" />{% endif %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  	<meta name="keywords" content="David and Martin Jewellery, Jewellery Brand">
+
+ 	<meta name="google-site-verification" content="aSOdtzZDPX9FFTMCql436--_EuIaE4FYV65nhSU0D1w" />
+  	<meta name="google-site-verification" content="dSF8pfdWknhuriS_-jxfWiQYdpA_pcgcRHFdKQoWQlI" />
+  	<meta name="msvalidate.01" content="20B87975B2BE747690AFAA409876359E" />
+  	<meta name="google-site-verification" content="AU7FO_7HjVsDTbqf4TUCEB1RFjFBhpHxkGOSrxcVZR4" />
+  	<meta name="google-site-verification" content="JN3bmRDg9T5tfn4Q7qimoaatt4Tux6RvVpOqcNOn90E" />
+
+
+<!-- LINK TAGS -->
+	<link rel="canonical" href="{{ canonical_url }}" />
+	<link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/x-icon" />
+
+<!-- GOOGLE FONTS -->
+	{% if settings.base_font and settings.base_font contains 'google_fonts:' %}
+		<link href="//fonts.googleapis.com/css?family={{ settings.base_font | replace:'google_fonts:' | replace: ' ','+' }}:300,400,700,900" rel="stylesheet" type="text/css">
+	{% endif %}
+	{% if settings.heading_font and settings.heading_font contains 'google_fonts:' and settings.heading_font != settings.base_font %}
+		<link href="//fonts.googleapis.com/css?family={{ settings.heading_font | replace:'google_fonts:' | replace: ' ','+' }}:300,400,700,900" rel="stylesheet" type="text/css">
+		
+	{% endif %}
+
+<!-- CSS -->
+	{{ 'assets.css' | asset_url | stylesheet_tag }}
+	{{ 'style.scss.css' | asset_url | stylesheet_tag }}
+	{% if settings.responsive_toggle %}
+		{{ 'responsive.scss.css' | asset_url | stylesheet_tag }}
+	{% endif %}
+
+<!-- JS -->
+	{{ 'assets.js' | asset_url | script_tag }}
+  <script type="text/javascript" src="/Assets/retina.min.js"></script> 
+
+<!-- SHOPIFY SERVICE SCRIPTS -->
+	{{ content_for_header }}
+</head>
+<body {% if template == 'index' %}onload="initialize()" {% elsif template == 'page.contact' and settings.contacts_map_toggle %}onload="initialize()"{% endif %} id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }} scheme_{{ settings.color_scheme }}">
+
+<div id="page_preloader"><div class="global_loader"></div></div>
+
+{% if settings.color_scheme_switch %}
+	<!-- COLOR SCHEMES S-WITCH -->
+	{% include 'widget-colors' %}
+{% endif %}
+
+<!-- MEGAMENU -->
+{% include 'widget-megamenu' %}
+
+{% if settings.newsletter_popup_toggle %}
+	<!-- NEWSLETTER POPUP -->
+	{% include 'widget-newsletter-popup' %}
+{% endif %}
+
+<div id="wrapper1">
+<div id="wrapper2">
+
+{% if settings.cookies_policy_toggle %}
+	<!-- COOKIES POLICY NOTIFICATION -->
+	{% include 'widget-cookies' %}
+{% endif %}
+
+{% if settings.promobanner_toggle %}
+	<!-- PROMO BANNER -->
+	{% include 'widget-promobanner' %}
+{% endif %}
+
+<div class="page_wrapper page_wrapper__header">
+
+<!-- HEADER -->
+<header>
+  <div itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">David and Martin</span>
+<span itemprop="company">David and Martin Jewellery</span>
+<span itemprop="tel">604-555-1234</span>
+<a itemprop="email" href="mailto:info@davidandmartin.com">info@davidandmartin.com</a>
+</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-1 header_left">
+				<i id="megamenu_trigger" class="fl-bigmug-line-left158"></i>
+			</div>
+			<div class="col-sm-2">
+              <a target="_blank" href="https://cdn.shopify.com/s/files/1/1481/4548/files/SS2017.pdf?9363402081450184737" class="btn lookbook_btn">View our lookbook</a>
+            </div>
+			<div class="col-md-6 col-sm-5 header_center">
+				<!-- LOGO -->
+				<div id="logo" class="logo_main">
+				<a href="/">
+				{% if settings.use_logo %}
+				{{ 'logo.png' | asset_url | img_tag: shop.name }}
+				{% if settings.use_logo_retina %}<script>var pixelRatio=window.devicePixelRatio?window.devicePixelRatio:1,attr1x=$("#logo img").attr("src").replace(".png","@2x.png");$(window).on("load",function(){pixelRatio>1&&$("#logo img").attr("src",attr1x).attr("width","350px")});</script>{% endif %}
+				{% else %}
+				<b>{{ shop.name }}</b>
+				{% endif %}
+				<span>{% assign X = 'layout.header.logo_slogan' | t %}{% if X.size > 0 %}{{ X }}{% else %}{{ settings.logo_slogan }}{% endif %}</span>
+				</a>
+				</div>
+              <div class="">
+              <a target="_blank" href="https://cdn.shopify.com/s/files/1/1481/4548/files/SS2017.pdf?9363402081450184737" class="btn m_lookbook_btn">View our lookbook</a>
+              </div>
+			</div>
+
+			<div class="col-md-3 col-sm-4 header_right">
+				<!-- HEADER SEARCH -->
+				<div id="search_trigger">
+					<i class="fl-bigmug-line-search74"></i>
+				</div>
+				<!-- HEADER CART -->
+				<div class="header_cart">
+					<a href="/cart"><i class="fl-line-icon-set-shopping63"></i></a>
+				</div>
+
+				
+
+
+			<!-- CURRENCY SWITCHER-->
+			<!--	{% if settings.show_multiple_currencies %}
+					
+					<div class="header_currency">
+						<select id="currencies" name="currencies">
+							{% capture codes %},USD,EUR,GBP,CAD,ARS,AUD,BBD,BDT,BSD,BHD,BRL,BOB,BND,BGN,MMK,KYD,CLP,CNY,COP,CRC,HRK,CZK,DKK,DOP,XCD,EGP,XPF,FJD,GHS,GTQ,GYD,GEL,HKD,HUF,ISK,INR,IDR,NIS,JMD,JPY,JOD,KZT,KES,KWD,LVL,LTL,MXN,MYR,MUR,MDL,MAD,MNT,MZN,ANG,NZD,NGN,NOK,OMR,PKR,PYG,PEN,PHP,PLN,QAR,RON,RUB,SAR,RSD,SCR,SGD,SYP,ZAR,KRW,LKR,SEK,CHF,TWD,THB,TZS,TTD,TRY,UAH,AED,UYU,VEB,VND,ZMK,{% endcapture %}
+							{% assign supported_codes = settings.supported_currencies | split: ' ' %}
+								<option value="{{ shop.currency }}" selected="selected">{{ shop.currency }}</option>
+								{% for code in supported_codes %}
+									{% if code != shop.currency and codes contains code %}
+										<option value="{{ code }}">{{ code }}</option>
+									{% endif %}
+								{% endfor %}
+						</select>
+					</div>
+				{% endif %}-->
+			</div>
+		</div>
+
+		<!-- HEADER SEARCH -->
+		<form id="search_form" action="/search" method="get" class="search_form search_off">
+			<input id="search-field" name="q" type="text" placeholder="{% assign X = 'layout.header.search' | t %}{% if X.size > 0 %}{{ X }}{% else %}Search store{% endif %}" />
+			<button id="search-submit" type="submit"><i class="fl-bigmug-line-search74"></i></button>
+			<i id="search_close" class="fl-bigmug-line-close42"></i>
+		</form>
+      
+	</div>
+</header>
+
+</div><!-- / .page_wrapper -->
+
+{% if template == 'index' %}
+	<div id="parallax_block">
+		{% if settings.body_bg_img_toggle %}
+			<div class="rd-parallax-layer" data-speed="0.15" data-type="media" data-url="{{ 'body_bg_img.jpg' | asset_url }}"></div>
+		{% endif %}
+
+		<div class="page_wrapper">
+			{% include 'widget-homepage' %}
+		</div>
+	</div>
+{% elsif template == 'list-collections' %}
+	<div id="parallax_block">
+		{% if settings.body_bg_img_toggle %}
+			<div class="rd-parallax-layer" data-speed="0.15" data-type="media" data-url="{{ 'body_bg_img.jpg' | asset_url }}"></div>
+		{% endif %}
+
+		<div class="page_wrapper">
+			<!-- MAIN CONTENT -->
+			<div id="main" role="main">
+				<div class="container">
+					<div class="main_content">
+						{% include 'collection-listing' %}
+					</div>
+
+					<!-- FOOTER -->
+					<footer class="subpages_footer">
+                      
+						<div class="copyright">
+							<a class="logo_footer" href="/">{{ shop.name }}</a>
+							{% assign copyright_year = "now" | date: "%Y" %}{% assign X = 'layout.footer.copyright' | t: year: copyright_year %}{% if X.size > 0 %}{{ X }}{% else %}© {{ copyright_year }}. All rights reserved.{% endif %}
+							{% if settings.footer_powered %} {{ powered_by_link }}{% endif %}
+						</div>
+					</footer>
+				</div>
+			</div>
+		</div>
+	</div>
+{% else %}
+	<div class="page_wrapper">
+		<!-- MAIN CONTENT -->
+		<div id="main" role="main">
+			<div class="container">
+				<div class="row">
+					<div class="main_content col-sm-12">
+						{{ content_for_layout }}
+					</div>
+				</div>
+
+				<!-- FOOTER -->
+				<footer class="subpages_footer">
+					<div class="copyright fsdfsd">
+						<a class="logo_footer" href="/">{{ shop.name }}</a>
+						{% assign copyright_year = "now" | date: "%Y" %}{% assign X = 'layout.footer.copyright' | t: year: copyright_year %}{% if X.size > 0 %}{{ X }}{% else %}© {{ copyright_year }}. All rights reserved.{% endif %}
+						{% if settings.footer_powered %} {{ powered_by_link }}{% endif %}
+					</div>
+				</footer>
+			</div>
+		</div>
+	</div><!-- / .page_wrapper -->
+{% endif %}
+
+</div><!-- / #wrapper2 -->
+</div><!-- / #wrapper1 -->
+
+<!-- olark chat -->
+{% if settings.olark_chat_toggle %}
+	{{ settings.olark_chat_code }}
+{% endif %}
+
+<!-- JS -->
+{% include 'snippet-js-footer' %}
+
+{% if template == 'index' %}<script src="//maps.googleapis.com/maps/api/js?v=3.exp"></script>{% elsif template == 'page.contact' and settings.contacts_map_toggle %}<script src="//maps.googleapis.com/maps/api/js?v=3.exp"></script>{% endif %}
+
+
+
+<style>
+@font-face {
+  font-family: 'Avenir';
+  src: url({{'AvenirLTStd-Roman.otf'|asset_url }}); /* IE9 Compat Modes */
+  src: url({{'AvenirLTStd-Roman.otf?#iefix'|asset_url }}) format('embedded-opentype'), /* IE6-IE8 */
+       url({{'AvenirLTStd-Roman.otf'|asset_url }}) format('woff2'), /* Super Modern Browsers */
+       url({{'AvenirLTStd-Roman.otf'|asset_url }}) format('woff'), /* Pretty Modern Browsers */
+       url({{'AvenirLTStd-Roman.otf'|asset_url }})  format('truetype'), /* Safari, Android, iOS */
+      
+}
+body{
+ font-family: 'Avenir'!important;	
+}
+
+.color_scheme .homepage_products__tabs {
+    padding: 35px 0 0 0;
+    display: none;
+}
+.product_img .img_change img {
+    height: 165px;
+}
+.scheme_1 #swiper .swiper-slide img {
+    width: 100%;
+}
+ span.homepage_counter {
+   display: none!important;
+}
+  .scheme_1 #swiper_pagination span {
+    display: inline-block;
+  }
+  .homepage_pattern{
+    display: none;
+}
+  
+  .scheme_1 .homepage_welcome__layered {
+    margin: 40px 0 0 0;
+  }
+  .color_scheme .subpages_footer .copyright {
+    padding-bottom: 15px;
+  }
+  span.heading_counter {
+    display: none!important;
+}
+  .scheme_1 h3 {
+    font-size: 22px!important;
+}
+  .newsletter_frm {
+    border:none;
+  } 
+  .scheme_1 .homepage_info:before {
+    left: 0px;
+  }
+  .scheme_1 #color_settings #color_settings__btn {
+    display:none;
+  }
+  div#habla_beta_container_do_not_rely_on_div_classes_or_names {
+    display: none;
+}
+input#paypal-express-button {
+    display: none;
+}
+  .rd-parallax-layer {
+    background: none!important;
+}
+.fancybox-inner {
+    max-height: 350px!important;
+}
+.doubly-float {
+    top: 36px;
+    left: auto;
+    right: 20px;
+  position:absolute;
+ }
+
+.doubly-float .nice-select .list {
+    top: 42px;
+    left: auto;
+    right: 0px;
+  }
+   .scheme_1 #search_trigger {
+     float: left;
+    }
+    .scheme_1 .header_cart {
+    float: left;
+    }
+ @media (max-width: 767px){
+.color_scheme .header_right ,.color_scheme .header_left{
+    top: 40px;
+  }
+  .doubly-float {
+     top: 14px;
+	}
+	.color_scheme .logo_main {
+      padding: 94px 0 0 0;
+	}
+	.color_scheme .header_right {
+       right: 140px;
+	}
+  }
+</style>
+<!-- BEEKETINGSCRIPT CODE START -->{% include 'bk-tracking' %}<!-- BEEKETINGSCRIPT CODE END --></body>
+</html>

@@ -1,0 +1,230 @@
+{% layout settings.customer_layout %}
+
+<div class="account_area">
+	<h2 class="page_heading">{% assign X = 'customer_pages.addresses_page.page_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Account addresses{% endif %} <a href="/account">{% assign X = 'customer_pages.addresses_page.return_back_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Return to account page{% endif %}</a></h2>
+
+	<div class="account_section account_address__add">
+		<h4>{% assign X = 'customer_pages.addresses_page.new_address_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}New address{% endif %} <span><a id="address_add__link" class="link_add" href="#">{% assign X = 'customer_pages.addresses_page.new_address_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Add a new address{% endif %}</a><a id="address_add__close" class="link_close" href="#">{% assign X = 'customer_pages.addresses_page.close' | t %}{% if X.size > 0 %}{{ X }}{% else %}Close{% endif %}</a></span></h4>
+
+		<div class="clearfix"></div>
+
+		<div id="address_add" class="form form-horizontal">
+			{% form 'customer_address', customer.new_address %}
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="address_first_name_new">{% assign X = 'customer_pages.addresses_page.first_name' | t %}{% if X.size > 0 %}{{ X }}{% else %}First Name{% endif %}</label>
+					<div class="col-sm-4"><input type="text" id="address_first_name_new" class="form-control" name="address[first_name]" value="{{form.first_name}}" size="40" /></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="address_last_name_new">{% assign X = 'customer_pages.addresses_page.last_name' | t %}{% if X.size > 0 %}{{ X }}{% else %}Last Name{% endif %}</label>
+					<div class="col-sm-4"><input type="text" id="address_last_name_new" class="form-control" name="address[last_name]" value="{{form.last_name}}" size="40" /></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="address_company_new">{% assign X = 'customer_pages.addresses_page.company' | t %}{% if X.size > 0 %}{{ X }}{% else %}Company{% endif %}</label>
+					<div class="col-sm-4"><input type="text" for="address_company_new" class="form-control" name="address[company]" value="{{form.company}}" size="40" /></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="address_address1_new">{% assign X = 'customer_pages.addresses_page.address_1' | t %}{% if X.size > 0 %}{{ X }}{% else %}Address 1{% endif %}</label>
+					<div class="col-sm-4"><input type="text" id="address_address1_new" class="form-control" name="address[address1]" value="{{form.address1}}" size="40" /></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="address_address2_new">{% assign X = 'customer_pages.addresses_page.address_2' | t %}{% if X.size > 0 %}{{ X }}{% else %}Address 2{% endif %}</label>
+					<div class="col-sm-4"><input type="text" id="address_address2_new" class="form-control" name="address[address2]" value="{{form.address2}}" size="40" /></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="address_city_new">{% assign X = 'customer_pages.addresses_page.city' | t %}{% if X.size > 0 %}{{ X }}{% else %}City{% endif %}</label>
+					<div class="col-sm-4"><input type="text" id="address_city_new" class="form-control" name="address[city]" value="{{form.city}}" size="40" /></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="address_country_new">{% assign X = 'customer_pages.addresses_page.country' | t %}{% if X.size > 0 %}{{ X }}{% else %}Country{% endif %}</label>
+					<div class="col-sm-4"><select class="form-control" id="address_country_new" name="address[country]" data-default="{{form.country}}">{{ country_option_tags }}</select></div>
+				</div>
+
+				<div id="address_province_container_new" style="display:none" class="form-group">
+					<label class="control-label col-sm-4" for="address_province_new">{% assign X = 'customer_pages.addresses_page.province' | t %}{% if X.size > 0 %}{{ X }}{% else %}Province{% endif %}</label>
+					<div class="col-sm-4"><select class="form-control" id="address_province_new" name="address[province]" data-default="{{form.province}}"></select></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="address_zip_new">{% assign X = 'customer_pages.addresses_page.zip' | t %}{% if X.size > 0 %}{{ X }}{% else %}Zip{% endif %}</label>
+					<div class="col-sm-4"><input type="text" id="address_zip_new" class="form-control" name="address[zip]" value="{{form.zip}}" size="40" /></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="address_phone_new">{% assign X = 'customer_pages.addresses_page.phone' | t %}{% if X.size > 0 %}{{ X }}{% else %}Phone{% endif %}</label>
+					<div class="col-sm-4"><input type="text" id="address_phone_new" class="form-control" name="address[phone]" value="{{form.phone}}" size="40" /></div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-4 col-sm-offset-4"><label for="address_default_address_new">{{ form.set_as_default_checkbox }} {% assign X = 'customer_pages.addresses_page.set_default_address' | t %}{% if X.size > 0 %}{{ X }}{% else %}Set as Default Address?{% endif %}</label></div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-4">
+						<button class="btn" type="submit">{% assign X = 'customer_pages.addresses_page.add_address_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Add address{% endif %}</button>
+						<a id="address_add__cancel" href="#">{% assign X = 'customer_pages.addresses_page.cancel' | t %}{% if X.size > 0 %}{{ X }}{% else %}Cancel{% endif %}</a>
+					</div>
+				</div>
+			{% endform %}
+		</div>
+	</div>
+
+{% for address in customer.addresses %}
+{% if address == customer.default_address %}
+<div class="account_section account_address__item" id="account_address__{{address.id}}">
+	<h4>{{address.name }} ({% assign X = 'customer_pages.addresses_page.default_address' | t %}{% if X.size > 0 %}{{ X }}{% else %}Default Address{% endif %}) <span><a class="link_edit" href="#account_address__{{address.id}}">{% assign X = 'customer_pages.addresses_page.edit' | t %}{% if X.size > 0 %}{{ X }}{% else %}Edit{% endif %}</a><a class="link_close" href="#account_address__{{address.id}}">{% assign X = 'customer_pages.addresses_page.close' | t %}{% if X.size > 0 %}{{ X }}{% else %}Close{% endif %}</a><a class="link_delete" href="#" title="{{address.id}}">{% assign X = 'customer_pages.addresses_page.delete' | t %}{% if X.size > 0 %}{{ X }}{% else %}Delete{% endif %}</a></span></h4>
+
+	<p class="address_item address_location">{{ customer.default_address.street }}{% if customer.default_address.city != "" %}, {{ customer.default_address.city }}{% endif %}{% if address.province_code %}, {{ customer.default_address.province_code }}{% endif %}{% if customer.default_address.country != "" %}, {{ customer.default_address.country }}{% endif %}{% if customer.default_address.zip != "" %}, {{ customer.default_address.zip }}{% endif %}</p>
+	{% if address.phone != "" %}<p class="address_item address_phone">{{ address.phone }}</p>{% endif %}
+
+	<div class="account_address__edit form-horizontal">
+		{% form 'customer_address', address %}
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_first_name_{{form.id}}">{% assign X = 'customer_pages.addresses_page.first_name' | t %}{% if X.size > 0 %}{{ X }}{% else %}First Name{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_first_name_{{form.id}}" class="form-control" name="address[first_name]" value="{{form.first_name}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_last_name_{{form.id}}">{% assign X = 'customer_pages.addresses_page.last_name' | t %}{% if X.size > 0 %}{{ X }}{% else %}Last Name{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_last_name_{{form.id}}" class="form-control" name="address[last_name]" value="{{form.last_name}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_company_{{form.id}}">{% assign X = 'customer_pages.addresses_page.company' | t %}{% if X.size > 0 %}{{ X }}{% else %}Company{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_company_{{form.id}}" class="form-control" name="address[company]" value="{{form.company}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_address1_{{form.id}}">{% assign X = 'customer_pages.addresses_page.address_1' | t %}{% if X.size > 0 %}{{ X }}{% else %}Address 1{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_address1_{{form.id}}" class="form-control" name="address[address1]" value="{{form.address1}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_address2_{{form.id}}">{% assign X = 'customer_pages.addresses_page.address_2' | t %}{% if X.size > 0 %}{{ X }}{% else %}Address 2{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_address2_{{form.id}}" class="form-control" name="address[address2]" value="{{form.address2}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_city_{{form.id}}">{% assign X = 'customer_pages.addresses_page.city' | t %}{% if X.size > 0 %}{{ X }}{% else %}City{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_city_{{form.id}}" class="form-control" name="address[city]" value="{{form.city}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_country_{{form.id}}">{% assign X = 'customer_pages.addresses_page.country' | t %}{% if X.size > 0 %}{{ X }}{% else %}Country{% endif %}</label>
+				<div class="col-sm-4"><select class="form-control" id="address_country_{{form.id}}" name="address[country]" data-default="{{form.country}}">{{ country_option_tags }}</select></div>
+			</div>
+			<div class="form-group" id="address_province_container_{{form.id}}" style="display:none">
+				<label class="control-label col-sm-4" for="address_province_{{form.id}}">{% assign X = 'customer_pages.addresses_page.province' | t %}{% if X.size > 0 %}{{ X }}{% else %}Province{% endif %}</label>
+				<div class="col-sm-4"><select class="form-control" id="address_province_{{form.id}}" name="address[province]" data-default="{{form.province}}"></select></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_zip_{{form.id}}">{% assign X = 'customer_pages.addresses_page.zip' | t %}{% if X.size > 0 %}{{ X }}{% else %}Zip{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_zip_{{form.id}}" class="form-control" name="address[zip]" value="{{form.zip}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_phone_{{form.id}}">{% assign X = 'customer_pages.addresses_page.phone' | t %}{% if X.size > 0 %}{{ X }}{% else %}Phone{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_phone_{{form.id}}" class="form-control" name="address[phone]" value="{{form.phone}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-4"><label for="address_default_address_{{form.id}}">{{ form.set_as_default_checkbox }} {% assign X = 'customer_pages.addresses_page.set_default_address' | t %}{% if X.size > 0 %}{{ X }}{% else %}Set as Default Address?{% endif %}</label></div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-4">
+					<button class="btn" type="submit">{% assign X = 'customer_pages.addresses_page.update_address_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Update address{% endif %}</button>
+					<a class="link_cancel" href="account_address__{{address.id}}">{% assign X = 'customer_pages.addresses_page.cancel' | t %}{% if X.size > 0 %}{{ X }}{% else %}Cancel{% endif %}</a>
+				</div>
+			</div>
+		{% endform %}
+	</div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% for address in customer.addresses %}
+{% if address != customer.default_address %}
+<div class="account_section account_address__item" id="account_address__{{address.id}}">
+	<h4>{{address.name }} <span><a class="link_edit" href="#account_address__{{address.id}}">{% assign X = 'customer_pages.addresses_page.edit' | t %}{% if X.size > 0 %}{{ X }}{% else %}Edit{% endif %}</a><a class="link_close" href="#account_address__{{address.id}}">{% assign X = 'customer_pages.addresses_page.close' | t %}{% if X.size > 0 %}{{ X }}{% else %}Close{% endif %}</a><a class="link_delete" href="#" title="{{address.id}}">{% assign X = 'customer_pages.addresses_page.delete' | t %}{% if X.size > 0 %}{{ X }}{% else %}Delete{% endif %}</a></span></h4>
+
+	<p class="address_item address_location">{{ address.street }}{% if address.city != "" %}, {{ address.city }}{% endif %}{% if address.province_code %} ({{ address.province_code }}){% endif %}{% if address.country != "" %}, {{ address.country }}{% endif %}{% if address.zip != "" %}, {{ address.zip }}{% endif %}</p>
+	{% if address.phone != "" %}<p class="address_item address_phone">{{ address.phone }}</p>{% endif %}
+
+	<div class="account_address__edit form-horizontal">
+		{% form 'customer_address', address %}
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_first_name_{{form.id}}">{% assign X = 'customer_pages.addresses_page.first_name' | t %}{% if X.size > 0 %}{{ X }}{% else %}First Name{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_first_name_{{form.id}}" class="form-control" name="address[first_name]" value="{{form.first_name}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_last_name_{{form.id}}">{% assign X = 'customer_pages.addresses_page.last_name' | t %}{% if X.size > 0 %}{{ X }}{% else %}Last Name{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_last_name_{{form.id}}" class="form-control" name="address[last_name]" value="{{form.last_name}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_company_{{form.id}}">{% assign X = 'customer_pages.addresses_page.company' | t %}{% if X.size > 0 %}{{ X }}{% else %}Company{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_company_{{form.id}}" class="form-control" name="address[company]" value="{{form.company}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_address1_{{form.id}}">{% assign X = 'customer_pages.addresses_page.address_1' | t %}{% if X.size > 0 %}{{ X }}{% else %}Address 1{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_address1_{{form.id}}" class="form-control" name="address[address1]" value="{{form.address1}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_address2_{{form.id}}">{% assign X = 'customer_pages.addresses_page.address_2' | t %}{% if X.size > 0 %}{{ X }}{% else %}Address 2{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_address2_{{form.id}}" class="form-control" name="address[address2]" value="{{form.address2}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_city_{{form.id}}">{% assign X = 'customer_pages.addresses_page.city' | t %}{% if X.size > 0 %}{{ X }}{% else %}City{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_city_{{form.id}}" class="form-control" name="address[city]" value="{{form.city}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_country_{{form.id}}">{% assign X = 'customer_pages.addresses_page.country' | t %}{% if X.size > 0 %}{{ X }}{% else %}Country{% endif %}</label>
+				<div class="col-sm-4"><select class="form-control" id="address_country_{{form.id}}" name="address[country]" data-default="{{form.country}}">{{ country_option_tags }}</select></div>
+			</div>
+			<div class="form-group" id="address_province_container_{{form.id}}" style="display:none">
+				<label class="control-label col-sm-4" for="address_province_{{form.id}}">{% assign X = 'customer_pages.addresses_page.province' | t %}{% if X.size > 0 %}{{ X }}{% else %}Province{% endif %}</label>
+				<div class="col-sm-4"><select class="form-control" id="address_province_{{form.id}}" name="address[province]" data-default="{{form.province}}"></select></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_zip_{{form.id}}">{% assign X = 'customer_pages.addresses_page.zip' | t %}{% if X.size > 0 %}{{ X }}{% else %}Zip{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_zip_{{form.id}}" class="form-control" name="address[zip]" value="{{form.zip}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4" for="address_phone_{{form.id}}">{% assign X = 'customer_pages.addresses_page.phone' | t %}{% if X.size > 0 %}{{ X }}{% else %}Phone{% endif %}</label>
+				<div class="col-sm-4"><input type="text" id="address_phone_{{form.id}}" class="form-control" name="address[phone]" value="{{form.phone}}" size="40" /></div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-4"><label for="address_default_address_{{form.id}}">{{ form.set_as_default_checkbox }} {% assign X = 'customer_pages.addresses_page.set_default_address' | t %}{% if X.size > 0 %}{{ X }}{% else %}Set as Default Address?{% endif %}</label></div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-4">
+					<button class="btn" type="submit">{% assign X = 'customer_pages.addresses_page.update_address_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Update address{% endif %}</button>
+					<a class="link_cancel" href="account_address__{{address.id}}">{% assign X = 'customer_pages.addresses_page.cancel' | t %}{% if X.size > 0 %}{{ X }}{% else %}Cancel{% endif %}</a>
+				</div>
+			</div>
+		{% endform %}
+	</div>
+</div>
+{% endif %}
+{% endfor %}
+
+<script>
+jQuery(function($){
+	$(document).ready(function() {
+		// DELETING ADDRESS
+		$('.link_delete').on('click', function() {
+			Shopify.CustomerAddress.destroy( $(this).attr('title') );
+		});
+
+
+		// APPLYING PROVINCES SELECTOR
+		new Shopify.CountryProvinceSelector('address_country_new', 'address_province_new', {hideElement: 'address_province_container_new'});
+
+		{% for address in customer.addresses %}
+			new Shopify.CountryProvinceSelector('address_country_{{address.id}}', 'address_province_{{address.id}}', {hideElement: 'address_province_container_{{address.id}}'});
+		{% endfor %}
+
+	});
+});
+
+// MINI
+jQuery(function(d){d(document).ready(function(){d("#address_add, #address_add__close").hide(),d("#address_add__link").on("click",function(e){e.preventDefault(),d(this).fadeOut(300),d("#address_add__close").delay(300).fadeIn(),d("#address_add").slideDown()}),d("#address_add__close, #address_add__cancel").on("click",function(e){e.preventDefault(),d("#address_add__close").fadeOut(300),d("#address_add__link").delay(300).fadeIn(),d("#address_add").slideUp()}),d(".account_address__edit").hide(),d(".account_address__item .link_close").hide(),d(".link_edit").on("click",function(e){e.preventDefault();var n=d(this).attr("href");d(n).find(".account_address__edit").slideDown(),d(this).fadeOut(300),d(n).find(".link_close").delay(300).fadeIn(),d(n).find(".link_close").on("click",function(e){e.preventDefault(),d(n).find(".account_address__edit").slideUp(),d(this).fadeOut(300),d(n).find(".link_edit").delay(300).fadeIn()}),d(n).find(".link_cancel").on("click",function(e){e.preventDefault(),d(n).find(".link_close").trigger("click")})}),d(".link_delete").on("click",function(){Shopify.CustomerAddress.destroy(d(this).attr("title"))})})});
+</script>
+
+</div>

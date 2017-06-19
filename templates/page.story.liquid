@@ -1,0 +1,156 @@
+{% comment %}
+Re-use the 'rte' class wherever you output content that was added by a merchant using
+the Rich Text Editor ( 'rte' stands for rich text editor ).
+Style all HTML elements in that content the same way across the board.
+Use the 'rte' class in your CSS to help maintain that consistency.
+Example: the h2 element should have the same size and color in: 
+- product descriptions
+- collection descriptions
+- 'page' pages' content
+- blog post
+{% endcomment %}
+
+<div class="page-scope">
+	<div class="page_header">
+		<!--<h1 class="page_heading">{{ page.title }}</h1>-->
+	</div>
+
+	<div class="page_content">
+		<div class="rte">
+			<!--{{ page.content }}-->
+		
+<!--
+       <div class="col-md-12">
+		   <img src="{{'9.jpg'|asset_url}}">
+		   </div>
+-->
+ 
+   <div class="row" id="row1">
+	    <div class="col-md-6">
+			<h2>A STORY OF DAVID&MARTIN</h2>
+			<p class="padding-right">A story of David&Martin is a story of ultimate craftsmanship and of love to art, design and fashion. The brand was founded in Stockholm, the capital of Scandinavia, by two young graduates of Swedish University College of Arts, Crafts and Design David Andersson and Martin Lasson. Designers shared interest in old books, contemporary electronic music, Scandinavian and Egyptian aesthetics and appreciation of bold and confident women.
+		<br><br>
+			After David and Martin started to work together, they tried to mix these elements into jewellery pieces that are clean, graphic and feminine with a masculine edge, and create the jewellery in their own way - feminine but not necessarily "Pretty".</p>
+	   </div>
+	    <div class="col-md-6">
+			<img src="{{'davidmartin.png'| asset_url}}"  style="float:right;" class="img-responsive">
+	    </div>
+	   
+  </div>
+  
+  <hr>
+  <div class="row" id="row2">
+	  <div class="col-md-4">
+	    <img src="{{'person1.png'| asset_url}}"  class="img-responsive">
+	  </div>
+	  <div class="col-md-4">
+	      <p class="padding-center">This unique design approach has proven itself working after David&Martin’s black resin bracelets caught the eye of Karl Lagerfeld who was then working on the collection for H&M in Stockholm. As a result, David&Martin got commissioned to design a 10 piece collection for Lagerfeld Gallery, setting the brand’s way to international success. </p>
+	  </div>
+	  <div class="col-md-4">
+	  <img src="{{'person2.png'| asset_url}}" class="img-responsive" >
+	  </div>
+</div>
+   <hr>
+   
+   <div class="row" id="row3">
+		 <div class="col-md-6">
+			<img src="{{'group.png'| asset_url}}" class="img-responsive">
+	    </div>
+	    <div class="col-md-6">
+					
+			<p class="padding-left" style="padding-top:30px;">David&Martin’s secret of success lies in staying independent yet commercial. The brand does not allow trends or fashions to dictate its distinct philosophy that all the pieces should remain timeless. Every new collection is a further enhancing addition to David&Martin’s existing creations, which is like a project that is ever-evolving or an creative showcase that is ever-growing and inspirational.<br>
+		   
+			<br><br>
+			Many of David&Martin's timeless pieces stem from sporadic flashes caught by untamed imagination in the most unsuspected situations and surroundings... Like the iconic "Chicken Feet" collection that came to life when sighting a beautiful girl on a Shanghai subway who was  munching deep fried chicken feet and simultaneously flicking through French Vogue...</p>
+	   </div>
+	   
+  </div>
+  
+ <div class="row" id="row4">
+      <div class="col-md-12"  style="text-align:center;">
+		  <img src="{{'banner1.png'| asset_url}}" class="img-responsive">
+  	</div>
+</div>
+		 
+		<table class="aboutus">
+			
+		</table>  
+		  
+		   </div>
+      
+ </div>
+	
+	
+	
+          </div>  </div>  </div>
+      
+  <style>
+    
+ 
+
+    
+    
+ .scheme_1 .page_content .rte table td {
+    padding: 10px 15px;
+    text-align:justify;
+}
+.aboutus tr td:first-child{
+	width:100px;
+	color:#000;
+	font-weight:bold;
+}
+.aboutus_tablediv{
+ /*border:2px solid #efefef; */
+ 
+  padding:30px;
+  margin-top: 20px;
+}
+.scheme_1 .rte h2 {
+    font-size: 26px;
+}
+
+p{
+	font-size: 18px;
+	margin-top:0px!important;
+	text-align:justify;
+}
+td {
+    padding-bottom: 30px;
+    font-size: 17px;
+  
+}
+.color_scheme .container {
+   max-width: 976px;
+}
+#row5{
+	margin-top:50px;
+}
+#row5{
+	margin-top:40px;
+}
+#row1 h2{
+	text-align:center;
+	font-weight:bold;
+	margin-top:10px;
+	margin-bottom: 30px;
+}
+    
+
+.img-responsive {
+ width:100% 
+}
+.padding-right{
+	padding-right:15px!important;
+}
+.padding-left{
+	padding-left:15px!important;
+}
+.padding-center{
+	padding-left:10px!important;
+	padding-right:10px!important;
+}
+  </style>        
+      
+      
+      
+  

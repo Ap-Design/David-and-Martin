@@ -1,0 +1,14 @@
+<div class="product {% if template == 'index' %}product_homepage swiper-slide{% else %}col-xs-4 col-sm-4 col-md-3 col-lg-2 {% endif %} {% cycle 'step2': 'item2_1', 'item2_2' %} {% cycle 'step3': 'item3_1', 'item3_2', 'item3_3' %} {% cycle 'step4': 'item4_1', 'item4_2', 'item4_3', 'item4_4' %} {% cycle 'step6': 'item6_1', 'item6_2', 'item6_3', 'item6_4', 'item6_5', 'item6_6' %}">
+	<div class="product_wrapper">
+		<div class="product_img">
+			<a class="img_change" href="{{ product.url | within: collection }}">
+				<img src="{{ product.featured_image.src | product_img_url: 'master' }}" alt="{{ product.featured_image.alt | escape }}" />
+				<!--{ % if product.images.size > 1 %}
+					<img class="img__2" src="{ % for image in product.images limit:1 offset:1 %}{ { image.src | product_img_url: 'master' }}{ % endfor %}" alt="{ % for image in product.images limit:1 offset:1 %}{ { image.alt | escape }}{ % endfor %}" />
+				{ % endif %}-->
+			</a>
+		</div>
+
+		<a class="quick_view_btn" href="{{ product.url }}" title="{% assign X = 'catalog.products_listing.quick_view_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Quick view{% endif %}"></a>
+	</div>
+</div>

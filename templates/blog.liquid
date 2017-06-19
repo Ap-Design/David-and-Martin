@@ -1,0 +1,96 @@
+{% paginate blog.articles by 5 %}
+<div class="blog_listing">
+	<span class="homepage_counter homepage_counter__hidden">{% increment homepageBlocks %}</span>
+	<span class="homepage_counter homepage_counter__blog">{% increment homepageBlocks %}</span>
+
+	<div class="title_wrap">
+		{% if current_tags %}
+			<h1 class="page_heading">{{ blog.title | link_to: blog.url }} &raquo; {{ current_tags.first }}<a href="{{ blog.url }}.atom" target="_blank"></a></h1>
+		{% else %}
+			<h1 class="page_heading">{{ blog.title }}<a href="{{ blog.url }}.atom" target="_blank"></a></h1>
+		{% endif %}
+	</div>
+
+	{% for article in blog.articles %}
+		{% capture blog_iteration %}{% cycle 'blog_iteration_cycle' : 'item_1', 'item_2', 'item_3', 'item_4', 'item_5' %}{% endcapture %}
+
+		{% case blog_iteration %}
+			{% when 'item_1' %}
+				<div class="blog_row__1">
+					<div class="item_bg"></div>
+
+					<div class="row">
+						<div class="col-sm-5 col-sm-offset-1">
+							{% include 'widget-blog-listing-article' %}
+						</div>
+					{% if blog.articles.size == 1 %}
+					</div>{% comment %} </ .blog_row__1 .row > {% endcomment %}
+				</div>{% comment %} </ .blog_row__1 > {% endcomment %}
+				{% endif %}
+
+			{% when 'item_2' %}
+					<div class="col-sm-5 col-sm-offset-1">
+						{% include 'widget-blog-listing-article' with 'blog_iteration' %}
+					</div>
+				</div>{% comment %} </ .blog_row__1 .row > {% endcomment %}
+			</div>{% comment %} </ .blog_row__1 > {% endcomment %}
+
+			{% when 'item_3' %}
+				<div class="blog_row__2">
+					<div class="item_bg">
+						<div class="homepage_pattern blog_pattern__2">
+							<div class="block block_1"></div>
+							<div class="block block_2"></div>
+							<div class="block block_3"></div>
+							<div class="block block_4"></div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-5 col-sm-offset-3">
+							{% include 'widget-blog-listing-article' %}
+						</div>
+					</div>
+				</div>
+
+			{% when 'item_4' %}
+				<div class="blog_row__3">
+					<div class="item_bg"></div>
+
+					<div class="row">
+						<div class="col-sm-5 col-sm-offset-6">
+							{% include 'widget-blog-listing-article' %}
+						</div>
+					</div>
+				</div>
+
+			{% when 'item_5' %}
+				<div class="blog_row__4">
+					<div class="row">
+						<div class="col-sm-5">
+							{% include 'widget-blog-listing-article' %}
+						</div>
+					</div>
+				</div>
+		{% endcase %}
+	{% endfor %}
+
+	<div class="clearfix"></div>
+
+	{% if paginate.pages > 1 %}
+		<div class="pagination blog_listing__pagination">
+			{{ paginate | default_pagination }}
+		</div>
+
+		<div class="clearfix"></div>
+	{% endif %}
+</div>
+{% endpaginate %}
+<style>
+  
+media (max-width: 991px) 
+.color_scheme .blog_listing .article_2 {
+    margin: 30% 0 0 0 !important;
+}
+
+</style>

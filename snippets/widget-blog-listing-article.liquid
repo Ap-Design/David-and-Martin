@@ -1,0 +1,31 @@
+<div class="blog_listing__article article_{{ forloop.index }} {% unless article.image %}no_image{% endunless %}">
+	{% case blog_iteration %}
+		{% when 'item_2', 'item_5' %}
+			<div class="homepage_pattern blog_pattern">
+				<div class="block block_1"></div>
+				<div class="block block_2"></div>
+				<div class="block block_3"></div>
+				<div class="block block_4"></div>
+				<div class="block block_5"></div>
+				<div class="block block_6"></div>
+			</div>
+	{% endcase %}
+
+	{% unless article.image %}
+		<div class="wrap_1">
+		<div class="wrap_2">
+	{% endunless %}
+
+		{% if article.image %}<div class="article_img">{{ article.image.src | img_url: 'original' | img_tag: article.title }}</div>{% endif %}
+
+		<span class="blog_date">{{ article.author }}, {{ article.published_at | date: '%B %d, %Y' }}</span>
+
+		<h3 class="blog_title homepage_heading"><a href="{{ article.url }}">{{ article.title | truncate:25 }}</a></h3>
+
+		<a class="btn btn-outline homepage_btn" href="{{ article.url }}">{% assign X = 'blog.general.read_more' | t %}{% if X.size > 0 %}{{ X }}{% else %}Read more{% endif %}</a>
+
+	{% unless article.image %}
+		</div>
+		</div>
+	{% endunless %}
+</div>

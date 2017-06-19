@@ -1,0 +1,139 @@
+<div itemscope itemtype="http://schema.org/Product" class="product-scope">
+	<meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+	<meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'original' }}" />
+
+	{% assign product_vendor_handle = product.vendor | handle %}
+	{% comment %}
+	Do we have a collection that has the same name as our product vendor name?
+	If we do, let's have the vendor link point to it.
+	If not, we will point to the automatic vendor collection.
+	{% endcomment %}
+	{% if collections[product_vendor_handle].handle == product_vendor_handle %}
+		{% assign vendor_url = collections[product_vendor_handle].url %}
+	{% else %}
+		{% assign vendor_url = product.vendor | url_for_vendor %}
+	{% endif %}
+
+	<div class="product_wrap">
+		<div class="row">
+			<div class="col-sm-6 col-lg-5 product_images product_left">
+				{% if product.images.size != 0 %}
+					{% if product.images.size > 1 %}
+						<div class="product_img__wrap">
+							<div id="product_img" class="product_img swiper-container">
+								<div class="swiper-wrapper">
+									{% for image in product.images %}
+										<a class="swiper-slide" href="{{ image.src | product_img_url: '600x600', scale: 0 }}">
+											<img src="{{ image.src | product_img_url: '600x600', scale: 0 }}" alt="{{ product.title | escape }}" />
+										</a>
+									{% endfor %}
+								</div>
+							</div>
+
+							<div id="product_img__prev" class="swiper_btn"><i class="arrows-thin35"></i></div>
+							<div id="product_img__next" class="swiper_btn"><i class="arrows-right106"></i></div>
+						</div>
+					{% else %}
+						<img id="elevatezoom_big" class="fancybox" src="{{ product.featured_image.src | product_img_url: '600x600', scale: 0 }}" data-zoom-image="{{ product.featured_image.src | product_img_url: '600x600' }}" alt="{{ product.title | escape }}" />
+					{% endif %}
+				{% endif %}
+			</div>
+
+			<div class="col-sm-6 col-lg-offset-1">
+				{% if product.available %}
+					{% assign hide_default_title = false %}
+					{% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+						{% assign hide_default_title = true %}
+					{% endif %}
+
+					<form action="/cart/add" method="post" enctype="multipart/form-data" id="product-actions">
+						<div class="product_info">
+							<h1 class="product_name">{{ product.title }}</h1>
+							<div id="costum_desc" class="rte" itemprop="description">
+							{{ product.description }}
+						</div>
+							<div id="product_price">
+								<p class="price product-price"><span class="money">{{ product.price | money }}</span></p>
+							</div>
+
+							<div class="options">
+								<div class="variants-wrapper {% if hide_default_title %}hidden{% endif %}">
+									<select id="product-select" name="id">
+										{% for variant in product.variants %}
+										<option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+
+							<div id="purchase">
+								<div class="quantity_box">
+									<input id="quantity_form" type="text" name="quantity" value="1" class="quantity_input" />
+									<span class="quantity_modifier quantity_down"><i class="fa fa-minus"></i></span>
+									<span class="quantity_modifier quantity_up"><i class="fa fa-plus"></i></span>
+								</div>
+
+								<div class="btn_wrapper">
+									<button class="btn btn-cart" type="submit" id="add-to-cart">{% assign X = 'catalog.product_properties.add_to_cart' | t %}{% if X.size > 0 %}{{ X }}{% else %}Add to cart{% endif %}</button>
+								</div>
+							</div>
+
+							<div class="addthis_sharing_toolbox"></div>
+                          <!--<div style="margin-top:20px;">
+                            <a href="https://facebook.com/davidandmartinjewellery"><img src="https://cdn.shopify.com/s/files/1/1481/4548/t/2/assets/fb.png" border="0" /></a>
+                            <a href="https://twitter.com/DavidandMartin"><img src="https://cdn.shopify.com/s/files/1/1481/4548/t/2/assets/Twitter.png" border="0" /></a>
+                            <a href="https://www.pinterest.com/davidandmartin/"><img src="https://cdn.shopify.com/s/files/1/1481/4548/t/2/assets/Pinterest.png" border="0" /></a>
+                            <a href="https://www.instagram.com/davidandmartinjewellery"><img src="https://cdn.shopify.com/s/files/1/1481/4548/t/2/assets/Instagram.png" border="0" /></a>
+                          </div>-->
+						</div>
+					</form>
+				{% else %}
+					<div class="product_info">
+						<h1 class="product_name">{{ product.title }}</h1>
+						<div id="costum_desc" class="rte" itemprop="description">
+							{{ product.description }}
+						</div>
+
+						<div id="product_price">
+							<p class="price product-price"><span class="money">{{ product.price | money }}</span></p>
+						</div>
+
+						<div class="addthis_sharing_toolbox"></div>
+                     <!-- <div style="margin-top:20px;">
+                            <a href="https://facebook.com/davidandmartinjewellery"><img src="https://cdn.shopify.com/s/files/1/1481/4548/t/2/assets/fb.png" border="0" /></a>
+                            <a href="https://twitter.com/DavidandMartin"><img src="https://cdn.shopify.com/s/files/1/1481/4548/t/2/assets/Twitter.png" border="0" /></a>
+                            <a href="https://www.pinterest.com/davidandmartin/"><img src="https://cdn.shopify.com/s/files/1/1481/4548/t/2/assets/Pinterest.png" border="0" /></a>
+                            <a href="https://www.instagram.com/davidandmartinjewellery"><img src="https://cdn.shopify.com/s/files/1/1481/4548/t/2/assets/Instagram.png" border="0" /></a>
+                          </div>-->
+					</div>
+				{% endif %}
+			</div>
+		</div><!-- /.row -->
+
+
+		{% if collection %}
+			{% if collection.previous_product or collection.next_product %}
+				<p class="product_pagination">
+					{% if collection.previous_product %}
+						<a href="{{ collection.previous_product}}" class="btn product_prev">&larr; {% assign X = 'catalog.product_properties.previous_product' | t %}{% if X.size > 0 %}{{ X }}{% else %}Previous Product{% endif %}</a>
+					{% endif %}
+					{% if collection.next_product %}
+						<a href="{{ collection.next_product}}" class="btn product_next">{% assign X = 'catalog.product_properties.next_product' | t %}{% if X.size > 0 %}{{ X }}{% else %}Next Product{% endif %} &rarr;</a>
+					{% endif %}
+				</p>
+			{% endif %}
+		{% endif %}
+	</div><!-- /.product_wrap -->
+</div>
+
+{% include 'widget-related-products' %}
+
+<style>
+#costum_desc{
+    margin-top: 0px !important;
+    margin-bottom: 10px !important;
+    color: inherit;
+    font-size: 19px !important;
+}
+
+</style>

@@ -1,0 +1,52 @@
+
+<div id="collections-listing">
+ 
+
+    {% if collections.size > 0 %}
+
+    <h1 style="margin-bottom:30px;">Collections</h1>
+   
+    <ul>
+      {% for collection in collections %}
+        <li class="{{ collection.handle }}-collection col-md-4 col-sm-4 col-xs-12"  >
+          <a class="text-center" href="{{ collection.url }}" >
+          <h3  class="text-center">{{ collection.title | escape }}</h3>
+          
+    
+        <img class="img-responsive" src="{{ collection.image | img_url: '300x300', scale: 0 }}" >
+    <small class="hint">{{ collection.products_count  }} products</small>   
+      
+        
+        </li> </a>
+      {% endfor %}
+    </ul>
+
+  
+    {% else %}
+      <p>No Collections found...</p>
+    {% endif %}
+  
+</div>
+<style>
+li a{
+
+  /*display:inline-block;*/
+  /*border: 1px solid #efefef;*/
+ 
+ }
+  li{
+   margin-bottom:20px; 
+  }
+  ul{
+   width:100%; 
+  }
+  li img{
+    margin:auto;height:210px!Important;
+  }
+  ul li a, li small.hint{
+   text-align:center!important; 
+  }
+  small.hint{
+       display: block!important; 
+  }
+</style>

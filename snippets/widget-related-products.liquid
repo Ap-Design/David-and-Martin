@@ -1,0 +1,41 @@
+<!-- See this: http://wiki.shopify.com/Related_Products -->
+
+{% if collection and collection.products_count > 1 %}
+	{% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+
+	{% assign found_a_collection = false %}
+		{% for c in product.collections %}
+			{% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+				{% assign found_a_collection = true %}
+				{% assign collection = c %}
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+
+	<div class="widget_related_products">
+		<h3>{% assign X = 'catalog.product_properties.related_products' | t %}{% if X.size > 0 %}{{ X }}{% else %}Related products{% endif %}</h3>
+
+		<div class="widget_content">
+			<ul class="row product_listing_main product_listing_related">
+				{% assign current_product_found = false %}
+				{% for prod in collection.products limit:7 %}
+					{% if prod.title == product.title %}
+						{% assign current_product_found = true %}
+					{% else %}
+						{% unless current_product_found == false and forloop.last %}
+							<li class="col-xs-4 col-sm-4 col-md-3 col-lg-2 product product__{% cycle 'counter': '1','2','3','4' %}">
+								<div class="product_wrapper">
+									<div class="product_img">
+										<a href="{{ prod.url | within: collection }}" title="{{ prod.title | escape }}"><img src="{{ prod.featured_image | product_img_url: 'large' }}" alt="{{ prod.title | escape }}" /></a>
+									</div>
+
+									<a class="quick_view_btn" href="{{ prod.url }}" title="{% assign X = 'catalog.products_listing.quick_view_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Quick view{% endif %}"></a>
+								</div>
+							</li>
+						{% endunless %}
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+</div>
+{% endif %}

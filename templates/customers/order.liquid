@@ -1,0 +1,119 @@
+{% layout settings.customer_layout %}
+
+<div class="account_area">
+	<h2 class="page_heading">{% assign X = 'customer_pages.order_details_page.order' | t %}{% if X.size > 0 %}{{ X }}{% else %}Order{% endif %} {{ order.name }}<a href="/account">{% assign X = 'customer_pages.order_details_page.return_back_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Return to account page{% endif %}</a></h2>
+
+	{% if order.cancelled %}
+	<div class="alert alert-danger order_cancelled">
+		<h4>{% assign X = 'customer_pages.order_details_page.order_cancelled' | t %}{% if X.size > 0 %}{{ X }}{% else %}Order cancelled on{% endif %} {{ order.cancelled_at | date: "%B %d, %Y %I:%M%p" }}</h4>
+		<p>{% assign X = 'customer_pages.order_details_page.order_cancelled_reason' | t %}{% if X.size > 0 %}{{ X }}{% else %}Reason{% endif %}: {{ order.cancel_reason }}</p>
+	</div>
+	{% endif %}
+
+	<div class="account_wrapper">
+		<div class="account_left">
+			<div class="account_section address_billing">
+				<h4>{% assign X = 'customer_pages.order_details_page.billing_address' | t %}{% if X.size > 0 %}{{ X }}{% else %}Billing address{% endif %}</h4>
+
+				<p class="address_item address_user">{{ order.billing_address.name }}</p>
+				<p class="address_item address_location">{{ order.billing_address.street }}{% if order.billing_address.city != "" %}, {{ order.billing_address.city }}{% endif %}{% if order.billing_address.province_code %} ({{ order.billing_address.province_code }}){% endif %}{% if order.billing_address.country != "" %}, {{ order.billing_address.country }}{% endif %}{% if order.billing_address.zip != "" %}, {{ order.billing_address.zip }}{% endif %}</p>
+				<p class="address_item address_phone">{{ order.billing_address.phone }}</p>
+			</div>
+		</div>
+		<div class="account_right">
+			{% if order.shipping_address %}
+				<div class="account_section address_shipping">
+					<h4>{% assign X = 'customer_pages.order_details_page.shipping_address' | t %}{% if X.size > 0 %}{{ X }}{% else %}Shipping address{% endif %}</h4>
+
+					<p class="address_item address_user">{{ order.shipping_address.name }}</p>
+					<p class="address_item address_location">{{ order.shipping_address.street }}{% if order.shipping_address.city != "" %}, {{ order.shipping_address.city }}{% endif %}{% if order.shipping_address.province_code %} ({{ order.shipping_address.province_code }}){% endif %}{% if order.shipping_address.country != "" %}, {{ order.shipping_address.country }}{% endif %}{% if order.shipping_address.zip != "" %}, {{ order.shipping_address.zip }}{% endif %}</p>
+					<p class="address_item address_phone">{{ order.shipping_address.phone }}</p>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="account_section">
+		<h4>{% assign X = 'customer_pages.order_details_page.order_details' | t %}{% if X.size > 0 %}{{ X }}{% else %}Order details{% endif %}</h4>
+
+		<table class="account_table table_info">
+			<tr>
+				<td>{% assign X = 'customer_pages.order_details_page.placed_on' | t %}{% if X.size > 0 %}{{ X }}{% else %}Placed on{% endif %}</td>
+				<td>{{ order.created_at | date: "%B %d, %Y %I:%M%p" }}</td>
+			</tr>
+			<tr>
+				<td>{% assign X = 'customer_pages.order_details_page.payment_status' | t %}{% if X.size > 0 %}{{ X }}{% else %}Payment status{% endif %}</td>
+				<td>{{ order.financial_status }}</td>
+			</tr>
+			<tr>
+				<td>{% assign X = 'customer_pages.order_details_page.fulfillment_status' | t %}{% if X.size > 0 %}{{ X }}{% else %}Fulfillment status{% endif %}</td>
+				<td>{{ order.fulfillment_status }}</td>
+			</tr>
+		</table>
+
+		<div class="table_orders__wrap">
+			<table class="account_table table_orders">
+				<thead>
+					<tr>
+						<th>{% assign X = 'customer_pages.order_details_page.product' | t %}{% if X.size > 0 %}{{ X }}{% else %}Product{% endif %}</th>
+						<th class="cell_total">{% assign X = 'customer_pages.order_details_page.price' | t %}{% if X.size > 0 %}{{ X }}{% else %}Price{% endif %}</th>
+						<th class="cell_total">{% assign X = 'customer_pages.order_details_page.quantity' | t %}{% if X.size > 0 %}{{ X }}{% else %}Quantity{% endif %}</th>
+						<th class="cell_total">{% assign X = 'customer_pages.order_details_page.total' | t %}{% if X.size > 0 %}{{ X }}{% else %}Total{% endif %}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for line_item in order.line_items %}
+						<tr id="{{ line_item.id }}">
+							<td class="product">
+								{{ line_item.title | link_to: line_item.product.url }} 
+								{% if line_item.fulfillment %}
+								<p>
+								{% assign X = 'customer_pages.order_details_page.fulfilled' | t %}{% if X.size > 0 %}{{ X }}{% else %}Fulfilled{% endif %} {{ line_item.fulfillment.created_at | date: "%b %d" }}
+								{% if line_item.fulfillment.tracking_number %}
+								<a href="{{ line_item.fulfillment.tracking_url }}">{{ line_item.fulfillment.tracking_company }} #{{ line_item.fulfillment.tracking_number}}</a>
+								{% endif %}
+								</p>
+								{% endif %}
+							</td>
+							<td class="cell_total"><span class="money">{{ line_item.price | money }}</span></td>
+							<td class="cell_total">x{{ line_item.quantity }}</td>
+							<td class="cell_total"><span class="money">{{ line_item.quantity | times: line_item.price | money }}</span></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3">{% assign X = 'customer_pages.order_details_page.subtotal' | t %}{% if X.size > 0 %}{{ X }}{% else %}Subtotal{% endif %}</td>
+						<td class="cell_total"><span class="money">{{ order.subtotal_price | money }}</span></td>
+					</tr>   
+
+					{% for discount in order.discounts %}
+						<tr>
+							<td colspan="3">{% assign X = 'customer_pages.order_details_page.discount' | t %}{% if X.size > 0 %}{{ X }}{% else %}Discount{% endif %} — {{ discount.code }}</td>
+							<td class="cell_total"><span class="money">{{ discount.savings | money }}</span></td>
+						</tr>
+					{% endfor %}
+
+					{% for shipping_method in order.shipping_methods %}
+						<tr>
+							<td colspan="3">{% assign X = 'customer_pages.order_details_page.shipping' | t %}{% if X.size > 0 %}{{ X }}{% else %}Shipping{% endif %} ({{ shipping_method.title }})</td>
+							<td class="cell_total"><span class="money">{{ shipping_method.price | money }}</span></td>
+						</tr>
+					{% endfor %}
+
+					{% for tax_line in order.tax_lines %}
+						<tr>
+							<td colspan="3">{% assign X = 'customer_pages.order_details_page.tax' | t %}{% if X.size > 0 %}{{ X }}{% else %}Tax{% endif %} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</td>
+							<td class="cell_total"><span class="money">{{ tax_line.price | money }}</span></td>
+						</tr>
+					{% endfor %}
+
+					<tr class="row_total">
+						<td colspan="3">{% assign X = 'customer_pages.order_details_page.total' | t %}{% if X.size > 0 %}{{ X }}{% else %}Total{% endif %}</td>
+						<td class="cell_total"><span class="money">{{ order.total_price | money }} {{ order.currency }}</span></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

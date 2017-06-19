@@ -1,0 +1,95 @@
+{% layout settings.customer_layout %}
+
+<div class="account_area">
+	<div class="account_welcome">
+		<h1 class="page_heading">{% assign X = 'customer_pages.my_account.page_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}My account{% endif %} <a class="link_logout" href="/account/logout">{% assign X = 'customer_pages.my_account.logout_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Logout{% endif %}</a></h1>
+
+		<h3 class="account_welcome__name">{% assign X = 'customer_pages.my_account.customer_greeting' | t %}{% if X.size > 0 %}{{ X }}{% else %}Hello{% endif %}, {{ customer.name }}</h3>
+
+		<p class="account_welcome__desc">{% assign X = 'customer_pages.my_account.customer_greeting_tagline' | t %}{% if X.size > 0 %}{{ X }}{% else %}From your "My Account" page you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information.{% endif %}</p>	
+	</div>
+
+	<div class="account_wrapper">
+		<div class="account_left">
+			<div class="account_section account_info">
+				<h4>{% assign X = 'customer_pages.account_information_block.title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Account information{% endif %}</h4>
+
+				<table class="account_table table_info">
+					<tr>
+						<td>{% assign X = 'customer_pages.account_information_block.name' | t %}{% if X.size > 0 %}{{ X }}{% else %}Name{% endif %}</td>
+						<td>{{ customer.name }}</td>
+					</tr>
+					<tr>
+						<td>{% assign X = 'customer_pages.account_information_block.email' | t %}{% if X.size > 0 %}{{ X }}{% else %}Email{% endif %}</td>
+						<td>{{ customer.email }}</td>
+					</tr>
+					<tr>
+						<td>{% assign X = 'customer_pages.account_information_block.tags' | t %}{% if X.size > 0 %}{{ X }}{% else %}Tags{% endif %}</td>
+						<td>{% if customer.tags.size >= 1 %}<span>{{ customer.tags | first }}</span>{% for tag in customer.tags offset:1 %}, <span>{{ tag }}</span>{% endfor %}</p>{% else %}—{% endif %}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div class="account_right">
+			<div class="account_section account_default">
+				<h4>{% assign X = 'customer_pages.default_address_block.title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Default address{% endif %} <span><a class="link_edit" href="/account/addresses">{% assign X = 'customer_pages.default_address_block.edit_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Edit{% endif %}</a></span></h4>
+
+				{% if customer.default_address != nil %}
+					<p class="address_item address_location">{{ customer.default_address.street }}{% if customer.default_address.city != "" %}, {{ customer.default_address.city }}{% endif %}{% if address.province_code %} ({{ customer.default_address.province_code }}){% endif %}{% if customer.default_address.country != "" %}, {{ customer.default_address.country }}{% endif %}{% if customer.default_address.zip != "" %}, {{ customer.default_address.zip }}{% endif %}</p>
+					{% if customer.default_address.phone != "" %}<p class="address_item address_phone">{{ customer.default_address.phone }}</p>{% endif %}
+				{% else %}
+					<p class="note">{% assign X = 'customer_pages.default_address_block.no_default_address' | t %}{% if X.size > 0 %}{{ X }}{% else %}You have not set a default address{% endif %}</p>
+				{% endif %}
+
+				<p class="address_all">
+					<a href="/account/addresses">{% assign X = 'customer_pages.default_address_block.manage_addresses_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Manage addresses{% endif %} ({{ customer.addresses_count }})</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="account_section account_orders">
+		<h4>{% assign X = 'customer_pages.orders_block.title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Orders{% endif %}</h4>
+
+		<table class="account_table table_info">
+			<tr>
+				<td>{% assign X = 'customer_pages.orders_block.total_orders' | t %}{% if X.size > 0 %}{{ X }}{% else %}Total orders{% endif %}</td>
+				<td>{{ customer.orders | size }}</td>
+			</tr>
+			<tr>
+				<td>{% assign X = 'customer_pages.orders_block.total_spent' | t %}{% if X.size > 0 %}{{ X }}{% else %}Total spent{% endif %}</td>
+				<td><span class="money">{{ customer.total_spent | money }}</span></td>
+			</tr>
+		</table>
+
+		{% if customer.orders.size != 0 %}
+			<div class="table_orders__wrap">
+				<table class="account_table table_orders">
+					<thead>
+						<tr>
+							<th>{% assign X = 'customer_pages.orders_block.order' | t %}{% if X.size > 0 %}{{ X }}{% else %}Order{% endif %}</th>
+							<th>{% assign X = 'customer_pages.orders_block.date' | t %}{% if X.size > 0 %}{{ X }}{% else %}Date{% endif %}</th>
+							<th>{% assign X = 'customer_pages.orders_block.payment_status' | t %}{% if X.size > 0 %}{{ X }}{% else %}Payment status{% endif %}</th>
+							<th class="cell_fulfillment">{% assign X = 'customer_pages.orders_block.fulfillment_status' | t %}{% if X.size > 0 %}{{ X }}{% else %}Fulfillment status{% endif %}</th>
+							<th class="cell_total">{% assign X = 'customer_pages.orders_block.total' | t %}{% if X.size > 0 %}{{ X }}{% else %}Total{% endif %}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for order in customer.orders %}
+							<tr class="{% if order.cancelled %}order_cancelled{% endif %}">
+								<td>{{ order.name | link_to: order.customer_url }}</td>
+								<td>{{ order.created_at | date: "%b %d, %Y" }}</td>
+								<td>{{ order.financial_status }}</td>
+								<td class="cell_fulfillment">{{ order.fulfillment_status }}</td>
+								<td class="cell_total"><span class="money">{{ order.total_price | money }}</span></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% else %}
+			<p class="note">{% assign X = 'customer_pages.orders_block.no_orders' | t %}{% if X.size > 0 %}{{ X }}{% else %}You haven't placed any orders yet{% endif %}</p>
+		{% endif %}
+	</div>
+</div>

@@ -1,0 +1,29 @@
+
+<!-- spurit_po-added -->
+{% include 'spurit_po-collection-snippet' %}
+<!-- /spurit_po-added -->
+{% paginate collection.products by 30 %}
+ <h1 class="page_heading">{{ collection.title }}<span class="heading_counter heading_counter__right">1</span></h1>
+<!--<h1 class="page_heading">Collections<span class="heading_counter heading_counter__right">1</span></h1>-->
+	<div class="product_listing_main product_listing__collection row">
+		{% for product in collection.products %}
+			{% include 'product-listing-item' %}
+		{% else %}
+			<div class="col-sm-12">
+				<p class="alert alert-info">{% assign X = 'catalog.products_listing_filters.no_products' | t %}{% if X.size > 0 %}{{ X }}{% else %}There are no products in this view{% endif %}</p>
+			</div>
+		{% endfor %}
+	</div>
+
+	{% comment %}<div class="pagination_products__wrap">{% endcomment %}
+		{% if paginate.pages > 1 %}
+		<div class="pagination pagination_products">
+			{{ paginate | default_pagination }}
+		</div>
+
+		<div class="clearfix"></div>
+		{% endif %}
+
+
+	{% comment %}</div>{% endcomment %}
+{% endpaginate %}

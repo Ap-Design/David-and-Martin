@@ -1,0 +1,127 @@
+{% paginate article.comments by 50 %}
+
+{% assign number_of_comments = article.comments_count %}
+
+{% comment %}If a comment was just submitted, and it has no blank fields.{% endcomment %}
+{% if comment and comment.created_at %}
+	{% assign number_of_comments = article.comments_count | plus: 1 %}
+{% endif %}
+
+<div class="blog_article">
+	<div class="row">
+		<div class="col-sm-11 col-sm-offset-1 col-md-7 col-md-offset-1">
+			<span class="article_date">{{ article.author }}, {{ article.published_at | date: '%B %d, %Y' }}</span>
+
+			<h1 class="article_title page_heading">{{ article.title }}</h1>
+
+			{% if article.image %}<div class="article_img">{{ article.image.src | img_url: 'original' | img_tag: article.title }}</div>{% endif %}
+		</div>
+	</div>
+
+	<div class="article_info">
+		{% if blog.comments_enabled? %}
+			<span class="article_comments">{{ article.comments_count }} {% assign X = 'blog.general.comments' | t %}{% if X.size > 0 %}{{ X }}{% else %}comments{% endif %}</span>
+		{% endif %}
+
+		{% if article.tags.size > 0 %}
+			{% for tag in article.tags %}
+				<a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+			{% endfor %}
+		{% endif %}
+	</div>
+
+	<div class="row">
+		<div class="col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-1">
+			<div class="addthis_sharing_toolbox"></div>
+		</div>
+
+		<div class="col-sm-8 col-md-6">
+			<div class="article_content rte">{{ article.content }}</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-11 col-sm-offset-1 col-md-6 col-md-offset-4">
+			{% if blog.comments_enabled? %}
+				{% if article.comments_count == 0 %}
+					<h3 class="article_comments__none">{% assign X = 'blog.general.no_comments' | t %}{% if X.size > 0 %}{{ X }}{% else %}There are no comments yet{% endif %}</h3>
+				{% else %}
+					<div class="article_comments__list">
+						<h3>{{ article.comments_count }} {% assign X = 'blog.article.comments_list' | t %}{% if X.size > 0 %}{{ X }}{% else %}Comments{% endif %}</h3>
+
+						{% if number_of_comments > 0 %}
+						<ul>
+							{% for comment in article.comments %}
+								<li class="article_comment" id="{{ comment.id }}">
+									<p class="article_comment__author">{{ comment.author }}, {{ comment.created_at | date: "%B %d, %Y (%I:%M %p)" }}</p>
+
+									<p class="article_comment__content">{{ comment.content | strip_html }}</p>
+								</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+					      
+						{% if paginate.pages > 1 %}
+							<div class="pagination comments_pagination">{{ paginate | default_pagination }}</div>
+						{% endif %}
+					</div>
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-11 col-sm-offset-1 col-md-5 col-md-offset-5">
+			{% if blog.comments_enabled? %}
+				<div id="article_comments" class="article_comments__form form_big">
+					{% form article %}
+						<h3>{% assign X = 'blog.article.comments_form' | t %}{% if X.size > 0 %}{{ X }}{% else %}Leave a comment{% endif %}</h3>
+
+						{% if comment and comment.created_at %}
+							<div class="alert alert-success">
+							{% if blog.moderated? %}
+								{% assign X = 'blog.article.comments_form_posted_moderated' | t %}{% if X.size > 0 %}{{ X }}{% else %}Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.{% endif %}
+							{% else %}
+								{% assign X = 'blog.article.comments_form_posted_success' | t %}{% if X.size > 0 %}{{ X }}{% else %}Your comment was posted successfully! Thank you!{% endif %}
+							{% endif %}
+						</div>
+						{% endif %}
+
+						{% if form.errors %}
+							<p class="alert alert-error feedback">
+								{{ settings.comments_error_message }}
+								<ul>
+								{% for field in form.errors %}
+									<li>{{ field | capitalize | replace: 'Body', 'Message' }} — {{ form.errors.messages[field] }}.</li>
+								{% endfor %}
+								</ul>
+							</p>
+						{% endif %}
+
+						{% if customer %}
+							<input type="hidden" name="comment[author]" value="{{ customer.first_name }} {{ customer.last_name }}">
+							<input type="hidden" name="comment[email]" value="{{ customer.email }}">
+						{% else %}
+							<input required class="form-control" type="text" name="comment[author]" placeholder="{% assign X = 'blog.article.comments_form_name' | t %}{% if X.size > 0 %}{{ X }}{% else %}Name{% endif %}" id="comment-author" value="{{ form.author }}" />
+							<input required class="form-control" type="email" name="comment[email]" placeholder="{% assign X = 'blog.article.comments_form_email' | t %}{% if X.size > 0 %}{{ X }}{% else %}Email{% endif %}" id="comment-email" value="{{ form.email }}" />
+						{% endif %}
+
+						<textarea class="form-control" name="comment[body]" placeholder="{% assign X = 'blog.article.comments_form_message' | t %}{% if X.size > 0 %}{{ X }}{% else %}Message{% endif %}" id="comment-body">{{ form.body }}</textarea>
+
+						<button type="submit" class="btn homepage_btn btn-outline">{% assign X = 'blog.article.comments_form_submit' | t %}{% if X.size > 0 %}{{ X }}{% else %}Post comment{% endif %}</button>
+					{% endform %}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endpaginate %}
+
+<script>
+jQuery(function($){
+	$(document).ready(function() {
+		$('#article_comments form').formValidation();
+	});
+});
+</script>

@@ -1,0 +1,121 @@
+<!----- homepage text block --->
+
+#parallax_block > div > div.page_wrapper > div > div.collections_listing.collections_listing__home > div.item_1 > div > div:nth-child(1) > p {
+
+  width: 70%;
+}
+
+<!----- homepage footer image --->
+#parallax_block > div > div.page_wrapper > div > div.collections_listing.collections_listing__home > div.banner > div {
+  height: 367px !important;
+}
+
+
+
+a.btn.btn-outline.homepage_btn
+{
+ 
+  /*margin-left: -15%;*/
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:100px;
+  
+}
+
+
+.social_icons {
+ 
+  text-align:center;
+  
+}
+
+ .display_story_btn
+  {
+    visibility:hidden;
+  }
+
+.social_icons a
+{
+  font-size:60px;
+  
+}
+
+#contactFormTelephone
+{
+  visibility:hidden;
+}
+
+
+.scheme_1 .product_listing_main .quick_view_btn
+{
+  background-color:#f1f1f1;
+}
+
+
+
+.scheme_1 .homepage_products__btn
+{
+  text-align:center;
+}
+
+
+#style_submit
+{
+ width:400px; 
+}
+
+@media screen and (max-width: 480px) {
+  
+  #style_submit
+{
+     width: 301px;
+    font-size: 10px;
+    padding: 10px 0 10px 0;
+    text-transform: uppercase;
+  
+  
+}
+  
+  .story_btn
+  {
+    padding: 9px 16px;
+    background: none !important;
+    font-weight: 300;
+    font-size: 12px;
+    color: #000 !important;
+    border: 1px solid #000;
+    text-transform: uppercase;
+  }
+  
+  .display_story_btn
+  {
+    visibility:visible;
+    margin-top:-45px
+    margin-bottom:40px;
+  }
+  
+  
+  
+  
+}
+
+@media screen and (max-width: 768px) {
+
+.color_scheme .contacts_page__1 .contacts_page__left
+{
+  
+  text-align:center;
+  
+  
+}
+  
+}
+
+
+
+.quick_view_btn
+{
+  visibility:hidden;
+  display:none;
+  
+}

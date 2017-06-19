@@ -1,0 +1,23 @@
+<div id="cookies_container">
+	<div class="container">
+		<p><b>{% assign X = 'custom_blocks.cookies_policy.tagline' | t %}{% if X.size > 0 %}{{ X }}{% else %}We use cookies to give you the best experience.{% endif %} </b>{% assign X = 'custom_blocks.cookies_policy.text' | t %}{% if X.size > 0 %}{{ X }}{% else %}If you do nothing, we'll assume that's OK.{% endif %}</p>
+		<a id="cookie_ok" class="cookie_btn" href="#">{% assign X = 'custom_blocks.cookies_policy.confirm_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}OK, I don't mind using cookies{% endif %}</a>
+		<a id="cookie_no" class="cookie_btn" href="{{ settings.cookies_policy_redirect }}">{% assign X = 'custom_blocks.cookies_policy.reject_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}No thanks{% endif %}</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+(function($) {
+	$(document).ready(function(){
+		if ($.cookie("cookies_ok") != 1) {
+			$("#cookies_container").show();
+
+			$("#cookie_ok").on('click', function () {
+				$.cookie("cookies_ok", 1, { path: '/', expires : {% if settings.cookies_policy_expire and settings.cookies_policy_expire != '' %}{{ settings.cookies_policy_expire | plus: 0 }}{% endif %} });
+				$("#cookies_container").slideUp();
+				return false;
+			});
+		};
+	});
+})(jQuery);
+</script>

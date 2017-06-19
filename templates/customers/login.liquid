@@ -1,0 +1,132 @@
+{% layout settings.customer_layout %}
+
+<h1 class="page_heading">{% assign X = 'customer_pages.login_or_registration_page.page_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Login or create an account{% endif %}</h1>
+
+<div id="account_login">
+	<div class="account_wrapper">
+		<div class="account_left">
+			<div class="account_section">
+				<h4>{% assign X = 'customer_pages.registration_form.introduction_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}New here?{% endif %}</h4>
+
+				<p class="note">{% assign X = 'customer_pages.registration_form.introduction_tagline' | t %}{% if X.size > 0 %}{{ X }}{% else %}Registration is free and easy!{% endif %}</p>
+
+				<ul>
+					<li>{% assign X = 'customer_pages.registration_form.introduction_text_1' | t %}{% if X.size > 0 %}{{ X }}{% else %}Faster checkout{% endif %}</li>
+					<li>{% assign X = 'customer_pages.registration_form.introduction_text_2' | t %}{% if X.size > 0 %}{{ X }}{% else %}Save multiple shipping addresses{% endif %}</li>
+					<li>{% assign X = 'customer_pages.registration_form.introduction_text_3' | t %}{% if X.size > 0 %}{{ X }}{% else %}View and track orders and more{% endif %}</li>
+				</ul>
+
+				<a id="account_register__link" class="btn" href="#">{% assign X = 'customer_pages.registration_form.introduction_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Create an account{% endif %}</a>
+			</div>
+		</div>
+
+		<div class="account_right">
+			<div class="account_section">
+				{% form 'customer_login' %}
+					<h4>{% assign X = 'customer_pages.login_form.form_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Already registered?{% endif %}</h4>
+
+					{{ form.errors | default_errors | replace: 'errors', 'alert alert-danger' }}
+
+					<div class="form-group">
+						<label for="customer_email" class="control-label">{% assign X = 'customer_pages.login_form.email_field' | t %}{% if X.size > 0 %}{{ X }}{% else %}Email address{% endif %}</label>
+						<input type="email" value="" name="customer[email]" id="customer_email" class="form-control" size="30" />
+					</div>
+					
+					{% if form.password_needed %}
+						<div class="form-group">
+							<label for="customer_password" class="control-label">{% assign X = 'customer_pages.login_form.password_field' | t %}{% if X.size > 0 %}{{ X }}{% else %}Password{% endif %}</label>
+							<input type="password" value="" name="customer[password]" id="customer_password" class="form-control" size="16" />
+						</div>
+					{% endif %}
+					  
+					<div class="form-group">
+						<button type="submit" class="btn">{% assign X = 'customer_pages.login_form.submit_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Sign in{% endif %}</button>
+						{% comment %}<input class="btn" type="submit" value="{% assign X = 'customer_pages.login_form.submit_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Sign in{% endif %}" />{% endcomment %}
+						<a id="account_reset__link" href="#">{% assign X = 'customer_pages.login_form.password_recovery_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Forgot your password?{% endif %}</a>
+					</div>
+				{% endform %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="account_register" class="account_section">
+	<h4>{% assign X = 'customer_pages.registration_form.form_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Create an account{% endif %} <span><a class="link_close account_register__cancel" href="#">{% assign X = 'customer_pages.registration_form.close_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Close{% endif %}</a></span></h4>
+
+	<div class="form-horizontal">
+		{% form 'create_customer' %}
+			{{ form.errors | default_errors | replace: 'errors', 'alert alert-danger' }}
+
+			<div class="clearfix form-group">
+				<label for="first_name" class="login control-label col-sm-4">{% assign X = 'customer_pages.registration_form.first_name_field' | t %}{% if X.size > 0 %}{{ X }}{% else %}First name{% endif %}</label>
+				<div class="col-sm-4"><input type="text" value="" name="customer[first_name]" id="first_name" class="form-control" size="30" /></div>
+			</div>
+
+			<div class="clearfix form-group">
+				<label for="last_name" class="login control-label col-sm-4">{% assign X = 'customer_pages.registration_form.last_name_field' | t %}{% if X.size > 0 %}{{ X }}{% else %}Last name{% endif %}</label>
+				<div class="col-sm-4"><input type="text" value="" name="customer[last_name]" id="last_name" class="form-control" size="30" /></div>
+			</div>
+
+			<div class="clearfix form-group">
+				<label for="email" class="login control-label col-sm-4">{% assign X = 'customer_pages.registration_form.email_field' | t %}{% if X.size > 0 %}{{ X }}{% else %}Email address{% endif %}</label>
+				<div class="col-sm-4"><input type="email" value="" name="customer[email]" id="email" class="form-control" size="30" /></div>
+			</div>
+
+			<div class="clearfix form-group">
+				<label for="password" class="login control-label col-sm-4">{% assign X = 'customer_pages.registration_form.password_field' | t %}{% if X.size > 0 %}{{ X }}{% else %}Password{% endif %}</label>
+				<div class="col-sm-4"><input type="password" value="" name="customer[password]" id="password" class="form-control password" size="30" /></div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-4">
+					<button class="btn btn-primary" type="submit">{% assign X = 'customer_pages.registration_form.submit_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Register{% endif %}</button>
+					<a class="account_register__cancel" href="#">{% assign X = 'customer_pages.registration_form.cancel_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Cancel{% endif %}</a>
+				</div>
+			</div>
+		{% endform %}
+	</div>
+</div>
+
+<div id="account_reset" class="account_section">
+	<h4>{% assign X = 'customer_pages.reset_password_query.form_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Reset Password{% endif %} <span><a class="link_close account_reset__cancel" href="#">{% assign X = 'customer_pages.reset_password_query.close_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Close{% endif %}</a></span></h4>
+	<p class="note">{% assign X = 'customer_pages.reset_password_query.form_tagline' | t %}{% if X.size > 0 %}{{ X }}{% else %}We will send you an email to reset your password{% endif %}</p>
+	{% form 'recover_customer_password' %}
+		<div class="clearfix form-horizontal">
+			{% if form.posted_successfully? %}
+				<p class="alert alert-success">{% assign X = 'customer_pages.reset_password_query.form_success' | t %}{% if X.size > 0 %}{{ X }}{% else %}Instructions were sent to your email. Follow them to recover your password.{% endif %}</p>
+			{% else %}
+				{{ form.errors | default_errors | replace: 'errors', 'alert alert-danger' }}
+			{% endif %}
+
+			<div class="form-group">
+				<label for="email" class="large col-sm-4">{% assign X = 'customer_pages.reset_password_query.email_field' | t %}{% if X.size > 0 %}{{ X }}{% else %}Email Address{% endif %}</label>
+				<div class="col-sm-4">
+					<input class="form-control" type="email" value="" size="30" name="email" id="recover-email" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-4 col-sm-offset-4">
+					<button class="btn" type="submit">{% assign X = 'customer_pages.reset_password_query.submit_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Submit{% endif %}</button>
+					<a class="account_reset__cancel" href="#">{% assign X = 'customer_pages.reset_password_query.cancel_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Cancel{% endif %}</a>
+				</div>
+			</div>
+		</div>
+	{% endform %}
+</div>
+
+{% if shop.checkout.guest_login %}
+<div id="account_guest" class="account_section">
+	<h4>{% assign X = 'customer_pages.guest_login.form_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Guest login{% endif %}</h4>
+
+	<p class="note">{% assign X = 'customer_pages.guest_login.form_tagline' | t %}{% if X.size > 0 %}{{ X }}{% else %}Guest login allows you to place orders without registration{% endif %}</p>
+
+	{% form 'guest_login' %}
+		<button class="btn" type="submit">{% assign X = 'customer_pages.guest_login.submit_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Continue as Guest{% endif %}</button>
+	{% endform %}
+</div>
+{% endif %}
+
+<script>
+jQuery(function(e){e(document).ready(function(){e("#account_register").find(".alert").length?e("#account_login, #account_reset").hide():e("#account_reset").find(".alert").length?(e("#account_reset").show(),e("#account_register").hide()):e("#account_register, #account_reset").hide(),e("#account_reset__link").on("click",function(c){c.preventDefault(),e("#account_reset").slideDown()}),e(".account_reset__cancel").on("click",function(c){c.preventDefault(),e("#account_reset").slideUp()}),e("#account_register__link").on("click",function(c){c.preventDefault(),e("#account_reset:visible")&&e("#account_reset").slideUp(),e("#account_login").delay(0).slideUp(),e("#account_register").delay(0).slideDown()}),e(".account_register__cancel").on("click",function(c){c.preventDefault(),e("#account_register").slideUp(),e("#account_login").slideDown()}),"#recover"==window.location.hash&&e("#account_reset").show(),e('#account_register a[href*="recover"]').on("click",function(){e("#account_register").slideUp(),e("#account_login").slideDown(),e("#account_reset").slideDown()}),e("#account_login form, #account_register form, #account_reset form").formValidation()})});
+</script>

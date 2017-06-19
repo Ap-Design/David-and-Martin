@@ -1,0 +1,136 @@
+
+<!-- spurit_po-added -->
+{% include 'spurit_po-cart-snippet' %}
+<!-- /spurit_po-added -->
+<div class="cart_page">
+	<div id="cart_loader">
+		<div class="global_loader"></div>
+	</div>
+
+	<h1 class="page_heading">{% assign X = 'cart.cart_page.page_title' | t %}{% if X.size > 0 %}{{ X }}{% else %}Shopping Cart{% endif %}</h1>
+
+	<div id="cart_content">
+		{% if cart.item_count > 0 %}
+			<form action="/cart" method="post" class="" class="form-inline">
+
+				<table class="cart_list">
+					<thead>
+						<tr>
+							<th>{% assign X = 'cart.cart_page.product' | t %}{% if X.size > 0 %}{{ X }}{% else %}Product{% endif %}</th>
+							<th>{% assign X = 'cart.cart_page.price' | t %}{% if X.size > 0 %}{{ X }}{% else %}Price{% endif %}</th>
+							<th>{% assign X = 'cart.cart_page.quantity' | t %}{% if X.size > 0 %}{{ X }}{% else %}Quantity{% endif %}</th>
+							<th>{% assign X = 'cart.cart_page.subtotal' | t %}{% if X.size > 0 %}{{ X }}{% else %}Subtotal{% endif %}</th>
+							<th></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for item in cart.items %}
+						<tr class="cart_item" data-id="{{ item.id }}">
+							<td class="cell_1">
+								<div class="cart_item__img">
+									<a href="{{ item.product.url | within: collections.all }}">  
+										<img src="{{ item | img_url: 'medium' }}"  alt="{{ item.title | escape }}" />
+									</a>
+								</div>
+
+								<div class="cart_item__info">
+									<h3 class="cart_item__name product_name">
+										<a href="{{ item.product.url | within: collections.all }}">
+											{{ item.product.title }}
+										</a>
+									</h3>
+
+									{% unless item.variant.title == 'Default Title' %}
+										<p class="cart_item__variant">{{ item.variant.title }}</p>
+									{% endunless %}
+
+									{% if item.properties.size > 0 %}
+										<p class="item_properties">
+											{% for p in item.properties %}
+												{% unless p.last == blank %}
+													{{ p.first }}:
+													{% if p.last contains '/uploads/' %}
+														<a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+													{% else %}
+														{{ p.last }}
+													{% endif %}
+													<br />
+												{% endunless %}
+											{% endfor %}
+										</p>
+									{% endif %}
+								</div>
+							</td>
+
+							<td class="cell_2 cart_price">
+								<span class="money">{{ item.price | money }}</span>
+							</td>
+
+							<td class="cell_3">
+								<div class="quantity_box">
+									<input class="quantity_input" id="updates_{{ item.id }}" name="updates[]" value="{{ item.quantity }}" type="text" />
+									<span class="quantity_modifier quantity_down"><i class="fa fa-minus"></i></span>
+									<span class="quantity_modifier quantity_up"><i class="fa fa-plus"></i></span>
+								</div>
+
+								<div>
+									<button class="btn cart_update">{% assign X = 'cart.cart_page.update' | t %}{% if X.size > 0 %}{{ X }}{% else %}Update{% endif %}</button>
+								</div>
+							</td>
+
+							<td class="cell_4 cart_price">
+								<span class="money">{{ item.line_price | money }}</span>
+							</td>
+
+							<td class="cell_5">
+								<a class="cart_item__remove" title="{{ forloop.index }}" href="#"><i class="fa fa-trash" style="font-size:35px;"></i></a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+
+					<tfoot>
+						<tr class="cart_buttons">
+							<td colspan="5">
+								<a class="btn btn-alt cart_continue" href="/collections">{% assign X = 'cart.cart_page.continue_shopping' | t %}{% if X.size > 0 %}{{ X }}{% else %}Continue shopping{% endif %}</a>
+								<button class="btn cart_update">{% assign X = 'cart.cart_page.update_cart' | t %}{% if X.size > 0 %}{{ X }}{% else %}Update cart{% endif %}</button>
+								<a class="btn" id="cart_clear" href="#">{% assign X = 'cart.cart_page.clear_cart' | t %}{% if X.size > 0 %}{{ X }}{% else %}Clear cart{% endif %}</a>
+								{% comment %}Paypal and Google checkout buttons{% endcomment %}
+								{% if additional_checkout_buttons %}
+									<p>
+										{{ content_for_additional_checkout_buttons }}
+									</p>
+								{% endif %}
+							</td>
+						</tr>
+
+						<tr class="cart_summary">
+							<td colspan="5">
+								
+								<p class="cart_summary__row">{% assign X = 'cart.cart_page.total_price' | t %}{% if X.size > 0 %}{{ X }}{% else %}Total price{% endif %} <span class="money">{{ cart.total_price | money }}</span></p>
+								<p class="alert alert-warning cart_summary__notification">
+									{% assign X = 'cart.cart_page.currency_processing' | t: default_currency: shop.currency %}{% if X.size > 0 %}{{ X }}{% else %}Shop process all orders in {{ shop.currency }}. While the content of your cart is currently displayed in {{ shop.currency }}, you will checkout using {{ shop.currency }} at the most current exchange rate.{% endif %}
+								</p>
+								<p class="cart_summary__instructions">
+									<label>{% assign X = 'cart.cart_page.seller_instructions' | t %}{% if X.size > 0 %}{{ X }}{% else %}Special instructions for seller{% endif %}</label>
+									<textarea class="form-control" name="note">{{ cart.note }}</textarea>
+								</p>
+								<div class="cart_summary__checkout">
+									{% include 'widget-payment-methods' %}
+									<button type="submit" name="checkout" class="btn">{% assign X = 'cart.cart_page.checkout_button' | t %}{% if X.size > 0 %}{{ X }}{% else %}Proceed to checkout{% endif %}</button>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		{% else %}
+			<div class="cart_empty">
+				<p class="alert alert-warning">{% assign X = 'cart.cart_page.empty_cart' | t %}{% if X.size > 0 %}{{ X }}{% else %}It appears that your cart is currently empty{% endif %}</p>
+
+				<h4><a href="/collections">{% assign X = 'cart.cart_page.collections_link' | t %}{% if X.size > 0 %}{{ X }}{% else %}Browse collections to find the products you are interested{% endif %}</a></h4>
+			</div>
+		{% endif %}
+	</div>
+</div>
